@@ -1,0 +1,22 @@
+{
+  "name": "frames",
+  "version": "0.1.0",
+  "description": "a full stack project",
+  "main": "server/server.js",
+  "scripts": {
+    "dev": "nodemon --watch server ./server/server.js",
+    "build": "next build ./client",
+    "start": "node ./server/server.js"
+  },
+  "author": "Hy",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "next": "^9.2.2",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0"
+  },
+  "devDependencies": {
+    "dotenv": "^8.2.0"
+  }
+}

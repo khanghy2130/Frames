@@ -1,0 +1,8 @@
+# root node modules folder
+node_modules
+
+# .next folder in client
+client/.next
+
+#.env file
+.env
