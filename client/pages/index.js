@@ -1,6 +1,8 @@
+// Home page / Landing page / Explore page
+
 const Index = () => (
   <div>
-    <p>Hello Next.js!</p>
+    <p>Hello INDEX</p>
   </div>
 )
 export default Index
