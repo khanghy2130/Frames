@@ -1,5 +1,7 @@
 // Page of a profile that doesn't belong to the user
 
+import '../sass/index.scss'
+
 const Profile = ({ profileName }) => {
 	console.log(profileName);
 

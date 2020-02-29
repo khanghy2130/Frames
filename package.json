@@ -11,8 +11,10 @@
   "author": "Hy",
   "license": "ISC",
   "dependencies": {
+    "@zeit/next-sass": "^1.0.1",
     "express": "^4.17.1",
     "next": "^9.2.2",
+    "node-sass": "^4.13.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0"
   },
