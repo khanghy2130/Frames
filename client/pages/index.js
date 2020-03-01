@@ -5,7 +5,7 @@ import Layout from '../components/Layout.js';
 const Index = () => (
 	<Layout>
 		<div>
-			<p>Hello INDEX</p>
+			<p>index page</p>
 		</div>
 	</Layout>
 )
