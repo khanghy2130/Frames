@@ -1,14 +1,13 @@
 import PropTypes from "prop-types";
 import Link from 'next/link';
 import Head from 'next/head';
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 
 import '../sass/layout.scss';
+import fullLogo from '../images/frames_full_logo.png';
+import logo from '../images/frames_logo.png';
 
-import fullLogo from './images/frames_full_logo.png';
-import logo from './images/frames_logo.png';
-
-const MOBILE_BREAKPOINT = 580;
+const LOGO_BREAKPOINT = 580;
 
 
 
@@ -20,16 +19,29 @@ const Layout = ({ children }) => {
     const toggleNav = function(e){
         showingNav = !showingNav;
 
-        navElement.current.classList.toggle("hidden-nav");
+        // better than toggle()
+        if (showingNav){
+            navElement.current.classList.remove("hidden-nav");
+        } else {
+            navElement.current.classList.add("hidden-nav");
+        }
+        
         buttonIcons[0].current.hidden = showingNav; // down icon
         buttonIcons[1].current.hidden = !showingNav; // up icon
     };
+    
+    // when mounted
+    useEffect(() => {
+        // reset nav 
+        showingNav = true; toggleNav();
+
+    });
 
     return (
         <div id='root'>
             <Head>
                 <script src="https://kit.fontawesome.com/4f37f05942.js" 
-                crossorigin="anonymous"></script>
+                crossOrigin="anonymous"></script>
                 <link href="https://fonts.googleapis.com/css?family=Offside|Ruluko&display=swap" 
                 rel="stylesheet"/>
             </Head>
@@ -39,7 +51,7 @@ const Layout = ({ children }) => {
                     <div id="logo-container">
                         <Link href='/'>
                             <picture>
-                              <source media={`(max-width: ${MOBILE_BREAKPOINT}px)`} 
+                              <source media={`(max-width: ${LOGO_BREAKPOINT}px)`} 
                               srcSet={logo}/>
                               <img src={fullLogo} alt="Logo"/>
                             </picture>

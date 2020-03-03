@@ -19,7 +19,9 @@ $mobile_bp: 580px;
 
 
 /* color interaction for buttons */
-.hover-and-active-class {
+.button-hover-class {
+	cursor: pointer;
+	
 	&:hover {
 		background-color: $dark-1;
 	}

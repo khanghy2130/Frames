@@ -1,0 +1,71 @@
+@import 'variables';
+
+main {
+
+	
+	#search-bar {
+		padding-top: 9em;
+		display: flex;
+		justify-content: center;
+
+		div {
+			display: flex;
+			justify-content: center;
+			overflow: hidden;
+			border-radius: 1em;
+			width: 50vw;
+
+			input[type="text"] {
+				@extend .font-body;
+				border: none;
+				background-color: $dark-2;
+				color: $light-1;
+				font-size: 1.5em;
+				padding: 0.6em;
+
+				min-width: 1vw; // make it shrinkable
+				flex-grow: 1; // fill the space
+			}
+
+			button {
+				@extend .button-hover-class;
+				border: none;
+				font-size: 1.5em;
+				color: $light-1;
+				background-color: $dark-2;
+				padding: 0.3em 0.6em;
+				
+			}
+		}	
+	}
+
+	#no-search {
+		text-align: center;
+
+		#ss_image {
+			height: auto;
+			width: 20vw;
+		}
+	}
+		
+
+
+}
+
+
+@media only screen and (max-width: $tablet-bp){
+	main {
+
+		#search-bar {
+			div {
+				width: 90vw;
+			}
+		}
+
+		#no-search {
+			#ss_image {
+				width: 50vw;
+			}
+		}
+	}
+}

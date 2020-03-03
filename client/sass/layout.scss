@@ -48,9 +48,8 @@ header {
 		#logo-container {
 			width: 16%;
 			padding: 0.5em 1em;
-			cursor: pointer;
 
-			@extend .hover-and-active-class;
+			@extend .button-hover-class;
 		}
 
 		#nav-toggler {
@@ -58,11 +57,10 @@ header {
 			border: none;
 			outline: none;
 			color: $main-blue;
-			cursor: pointer;
 			padding: 0.5em 1em;
 			font-size: 2.5vw;
 
-			@extend .hover-and-active-class;
+			@extend .button-hover-class;
 		}
 	}
 
@@ -86,7 +84,7 @@ header {
 				padding: 0.6em 1.5em;
 				font-size: 1.4em;
 
-				@extend .hover-and-active-class;
+				@extend .button-hover-class;
 				@extend .font-header;
 			}
 		}
@@ -96,11 +94,10 @@ header {
 	}
 }
 
-
 /* Body */
 main {
-	min-height: 100vh;
-
+	min-height: 100vh; // for all pages
+	/*padding-top: 10em;*/
 }
 
 /* Footer */
