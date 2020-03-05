@@ -44,6 +44,7 @@ const Layout = ({ children }) => {
                 crossOrigin="anonymous"></script>
                 <link href="https://fonts.googleapis.com/css?family=Offside|Ruluko&display=swap" 
                 rel="stylesheet"/>
+                <link rel="shortcut icon" href={logo} />
             </Head>
 
             <header>

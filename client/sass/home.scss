@@ -4,7 +4,7 @@ main {
 
 	
 	#search-bar {
-		padding-top: 9em;
+		padding-top: 11em;
 		display: flex;
 		justify-content: center;
 
@@ -31,10 +31,9 @@ main {
 				@extend .button-hover-class;
 				border: none;
 				font-size: 1.5em;
-				color: $light-1;
+				color: $main-blue;
 				background-color: $dark-2;
 				padding: 0.3em 0.6em;
-				
 			}
 		}	
 	}
@@ -45,6 +44,7 @@ main {
 		#ss_image {
 			height: auto;
 			width: 20vw;
+			padding-bottom: 2em;
 		}
 	}
 		
@@ -52,6 +52,14 @@ main {
 
 }
 
+@media only screen and (max-width: $desktop-bp){
+	main {
+
+		#search-bar {
+			padding-top: 9em;
+		}
+	}
+}
 
 @media only screen and (max-width: $tablet-bp){
 	main {
