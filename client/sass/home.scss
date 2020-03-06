@@ -48,7 +48,24 @@ main {
 		}
 	}
 		
+	#no-result-text {
+		width: 100%;
+		text-align: center;
+		padding: 2em 1em;
+		color: $dark-1;
+	}
 
+	#results-container {
+		margin: 3em 0;
+
+		column-count: 5;
+  		column-gap: 0px;
+
+		.gif-div {
+			padding: 0.3em;
+			width: 100%;
+		}
+	}
 
 }
 
@@ -57,6 +74,10 @@ main {
 
 		#search-bar {
 			padding-top: 9em;
+		}
+
+		#results-container {
+			column-count: 4;
 		}
 	}
 }
@@ -74,6 +95,10 @@ main {
 			#ss_image {
 				width: 50vw;
 			}
+		}
+
+		#results-container {
+			column-count: 2;
 		}
 	}
 }

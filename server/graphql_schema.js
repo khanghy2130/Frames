@@ -1,28 +1,56 @@
+const API_KEY = process.env.API_KEY;
+
 const axios = require('axios');
-
-
 const { 
 	GraphQLSchema,
 	GraphQLObjectType, 
 	GraphQLInt, 
 	GraphQLString,
-	GraphQLBoolean,
 	GraphQLList
 } = require('graphql');
-//////////////////// only import what is needed
 
 
-// User Type
-const UserType = new GraphQLObjectType({
-	name: 'User',
+// the object that is retrieved from API
+const SearchResponseType = new GraphQLObjectType({
+	name: "Search_Response",
 
-	// this function returns an object
 	fields: () => ({
-		id: { type: GraphQLInt },
-		name: { type: GraphQLString },
-		email: { type: GraphQLString },
-		website: { type: GraphQLString }
+		// a list of gif objects
+		data: { type: new GraphQLList(GifObjectType) },
+		// meta info of the main response
+		pagination: { type: PaginationType }
+	})
+});
+
+// (individual) Gif Object Type 
+const GifObjectType = new GraphQLObjectType({
+	name: 'Gif_Object',
+
+	fields: () => ({
+		id: { type: GraphQLString },
+
+		// getting images.original.url
+		images: { type: new GraphQLObjectType({
+			name: 'Images',
+			fields: () => ({
+				original: { type: new GraphQLObjectType({
+					name: 'Original',
+					fields: () => ({
+						url: { type: GraphQLString }
+					})
+				}) }
+			})
+		}) }
 	}) 
+});
+
+const PaginationType = new GraphQLObjectType({
+	name: "Pagination",
+	fields: () => ({
+		total_count: { type: GraphQLInt },
+		count: { type: GraphQLInt },
+		offset: { type: GraphQLInt }
+	})
 });
 
 
@@ -31,11 +59,16 @@ const RootQuery = new GraphQLObjectType({
 	name: 'RootQueryType',
 	fields: {
 		// this query is getting a list
-		users: {
-			type: new GraphQLList(UserType),
+		search_response: {
+			type: SearchResponseType,
+			args: {
+				// GraphQL variable
+				search_query: { type: GraphQLString }
+			},
 			resolve(parent, args) {
-				return axios.get('https://jsonplaceholder.typicode.com/users')
-					.then(res => res.data);
+				return axios
+				.get(`https://api.giphy.com/v1/gifs/search?api_key=${API_KEY}&q=${args.search_query}&limit=20`)
+				.then(res => (res.data));
 			}
 		}
 	}

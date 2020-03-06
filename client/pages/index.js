@@ -1,35 +1,40 @@
 // Home / Landing page / Explore page
 
+import { useState, useRef } from 'react';
 import Head from 'next/head';
 import Layout from '../components/Layout.js';
 import Searches from '../components/Searches.js';
 
 import '../sass/home.scss';
-import searchSuggestions from '../images/search_suggestions.png';
 
-const Index = () => (
-	<Layout>
-		<Head>
-			<title>Frames</title>
-		</Head>
 
-		<div id="landing-div"></div>
-		<div id="search-bar">
-			<div>
-				<input type="text" placeholder="Search" />
-				<button><i className="fas fa-search"></i></button>
+const Index = () => {
+	const [searchQuery, setSearchQuery] = useState("");
+	const searchInput = useRef(null);
+
+	// for search button
+	const doSearch = () => { setSearchQuery(searchInput.current.value) };
+
+	return (
+		<Layout>
+			<Head>
+				<title>Frames</title>
+			</Head>
+
+			<div id="landing-div"></div>
+			<div id="search-bar">
+				<div>
+					<input ref={searchInput} type="text" placeholder="Search" />
+					<button onClick={doSearch}>
+						<i className="fas fa-search"></i>
+					</button>
+				</div>
 			</div>
-		</div>
 
-		<Searches />
+			<Searches search_query={searchQuery} />
+			
 
-
-		{/* show div no-search as default and when no result found */}
-		<div id="no-search">
-			<img id="ss_image" src={searchSuggestions} alt="search suggestions" />
-		</div>
-		
-
-	</Layout>
-)
+		</Layout>
+	);
+}
 export default Index
