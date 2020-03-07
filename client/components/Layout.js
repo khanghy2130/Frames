@@ -103,7 +103,9 @@ const Layout = ({ children }) => {
 
             <footer>
                 <p id="copyright-text">
-                    Copyright © {new Date().getFullYear()} <a href="http://www.hynguyen.info">Hy Nguyen</a>
+                    Copyright © {new Date().getFullYear()} <a target="_blank" href="http://www.hynguyen.info">Hy Nguyen</a>
+                    <br />
+                    Powered by <a target="_blank" href="https://developers.giphy.com/">GIPHY</a>
                 </p>
             </footer>
         </div>

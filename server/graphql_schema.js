@@ -29,14 +29,14 @@ const GifObjectType = new GraphQLObjectType({
 	fields: () => ({
 		id: { type: GraphQLString },
 
-		// getting images.original.url
+		// getting images.original.webp
 		images: { type: new GraphQLObjectType({
 			name: 'Images',
 			fields: () => ({
 				original: { type: new GraphQLObjectType({
 					name: 'Original',
 					fields: () => ({
-						url: { type: GraphQLString }
+						webp: { type: GraphQLString }
 					})
 				}) }
 			})
@@ -67,7 +67,7 @@ const RootQuery = new GraphQLObjectType({
 			},
 			resolve(parent, args) {
 				return axios
-				.get(`https://api.giphy.com/v1/gifs/search?api_key=${API_KEY}&q=${args.search_query}&limit=20`)
+				.get(`https://api.giphy.com/v1/gifs/search?api_key=${API_KEY}&q=${args.search_query}&limit=20&rating=pg`)
 				.then(res => (res.data));
 			}
 		}

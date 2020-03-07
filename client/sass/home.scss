@@ -29,7 +29,6 @@ main {
 
 			button {
 				@extend .button-hover-class;
-				border: none;
 				font-size: 1.5em;
 				color: $main-blue;
 				background-color: $dark-2;
@@ -48,7 +47,8 @@ main {
 		}
 	}
 		
-	#no-result-text {
+	.search-message {
+		@extend .font-body;
 		width: 100%;
 		text-align: center;
 		padding: 2em 1em;
@@ -56,17 +56,77 @@ main {
 	}
 
 	#results-container {
-		margin: 3em 0;
+		margin-top: 3em;
 
-		column-count: 5;
+		column-count: 4;
   		column-gap: 0px;
 
 		.gif-div {
-			padding: 0.3em;
-			width: 100%;
+			width: 100%; /* fill a column */
+
+			img {
+				display: block;
+				cursor: pointer;
+				width: 100%;
+				height: auto;
+				border: transparent 0.3em solid;
+				
+				&:hover {
+					border-color: $dark-1;
+				}
+			}
+
 		}
 	}
 
+	#results-info-div {
+		display: flex;
+		justify-content: center;
+		padding: 2em 0;
+		font-size: 1.3em;
+
+		& > div {
+			text-align: center;
+			width: 50%;
+			background-color: $dark-2;
+			color: $light-1;
+			padding-bottom: 0.8em;
+
+			// next button
+			& > button {
+				@extend .font-header;
+				@extend .button-hover-class;
+				width: 100%;
+				color: $main-blue;
+				font-size: 1.2em;
+				padding: 0.5em 0; 
+			}
+
+			// current page number and total
+			& > p {
+				padding-top: 0.5em;
+				padding-bottom: 0.2em;
+			}
+
+			& > div {
+				input {
+					@extend .font-body;
+					font-size: 1em;
+					width: 2.8em;
+					margin-left: 0.3em;
+				}
+				button {
+					@extend .font-header;
+					@extend .button-hover-class;
+					color: $main-blue;
+					font-size: 1.3em;
+					padding: 0.2em 0.5em;
+					margin-left: 0.3em;
+				}
+			}
+		}
+
+	}
 }
 
 @media only screen and (max-width: $desktop-bp){
@@ -76,9 +136,6 @@ main {
 			padding-top: 9em;
 		}
 
-		#results-container {
-			column-count: 4;
-		}
 	}
 }
 
@@ -99,6 +156,12 @@ main {
 
 		#results-container {
 			column-count: 2;
+		}
+
+		#results-info-div {
+			& > div {
+				width: 90%;
+			}
 		}
 	}
 }

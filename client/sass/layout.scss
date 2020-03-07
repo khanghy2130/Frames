@@ -16,6 +16,10 @@ body {
 a {
 	text-decoration: none;
 }
+button {
+	background-color: transparent;
+	border: none;
+}
 
 ::root {
 	font-size: 2vw; /* root text size */
@@ -39,7 +43,6 @@ header {
 	width: 100%;
 
 	#header-bar {
-		
 		width: 100%;
 		display: flex;
 		justify-content: space-between;
@@ -53,8 +56,6 @@ header {
 		}
 
 		#nav-toggler {
-			background-color: transparent;
-			border: none;
 			outline: none;
 			color: $main-blue;
 			padding: 0.5em 1em;

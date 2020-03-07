@@ -14,6 +14,7 @@ const Index = () => {
 
 	// for search button
 	const doSearch = () => { setSearchQuery(searchInput.current.value) };
+	const onEnter = e => { if (e.key === 'Enter') doSearch(); };
 
 	return (
 		<Layout>
@@ -24,7 +25,10 @@ const Index = () => {
 			<div id="landing-div"></div>
 			<div id="search-bar">
 				<div>
-					<input ref={searchInput} type="text" placeholder="Search" />
+					<input ref={searchInput}
+					onKeyDown = {onEnter} 
+					type="text" 
+					placeholder="Search" />
 					<button onClick={doSearch}>
 						<i className="fas fa-search"></i>
 					</button>
