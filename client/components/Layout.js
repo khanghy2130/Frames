@@ -52,9 +52,9 @@ const Layout = ({ children }) => {
                     <div id="logo-container">
                         <Link href='/'>
                             <picture>
-                              <source media={`(max-width: ${LOGO_BREAKPOINT}px)`} 
-                              srcSet={logo}/>
-                              <img src={fullLogo} alt="Logo"/>
+                                <source media={`(max-width: ${LOGO_BREAKPOINT}px)`} 
+                                srcSet={logo}/>
+                                <img src={fullLogo} alt="Logo"/>
                             </picture>
                         </Link>
                     </div>

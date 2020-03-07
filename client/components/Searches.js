@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import gql from 'graphql-tag';
 import { useQuery } from '@apollo/react-hooks';
 import withApollo from '../lib/withApollo.js';
-import { Fragment, useRef } from 'react';
+import { Fragment } from 'react';
 
 import searchSuggestions from '../images/search_suggestions.png';
 
@@ -14,15 +14,15 @@ const suggestionsImage = () => (
 	</div>
 );
  
-const Searches = ({ search_query }) => {
+const Searches = ({ search_query, current_page, setCurrentPage }) => {
 	if (search_query.length === 0) return suggestionsImage();
 
 
 	const QUERY = gql`
-		query SearchResponseQuery($search_query: String!) {
+		query SearchResponseQuery($search_query: String!, $current_page: Int!) {
 
 			# >> The object retrieved from API
-			search_response(search_query: $search_query) {
+			search_response(search_query: $search_query, current_page: $current_page) {
 				# >> List of GIF objects
 				data {
 					id
@@ -44,7 +44,7 @@ const Searches = ({ search_query }) => {
 		}
 	`;
 
-	const { error, loading, data } = useQuery(QUERY, { variables: {search_query} });
+	const { error, loading, data } = useQuery(QUERY, { variables: {search_query, current_page} });
 
 	if (loading || !data) return (
 		<h3 className="search-message">Loading...</h3>
@@ -81,11 +81,15 @@ const Searches = ({ search_query }) => {
 				alert(`Please enter a page from 1 to ${pageInfo.total}`);
 			}
 			else {
-				alert("VALID NUMBER!");
+				setCurrentPage(pNum)
+				document.body.scrollTop = 0; // For Safari
+  				document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera;
 			}
 		},
 		goNextPage: function() {
-			alert("GOING TO NEXT PAGE!");
+			setCurrentPage(pageInfo.current + 1);
+			document.body.scrollTop = 0; // For Safari
+  			document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 		}
 	}
 	
@@ -122,6 +126,8 @@ const Searches = ({ search_query }) => {
 // check prop type
 Searches.propTypes = {
   search_query: PropTypes.string.isRequired,
+  current_page: PropTypes.number.isRequired,
+  setCurrentPage: PropTypes.func.isRequired
 }
 
 export default withApollo(Searches);

@@ -62,12 +62,13 @@ const RootQuery = new GraphQLObjectType({
 		search_response: {
 			type: SearchResponseType,
 			args: {
-				// GraphQL variable
-				search_query: { type: GraphQLString }
+				// query variables
+				search_query: { type: GraphQLString },
+				current_page: { type: GraphQLInt }
 			},
 			resolve(parent, args) {
 				return axios
-				.get(`https://api.giphy.com/v1/gifs/search?api_key=${API_KEY}&q=${args.search_query}&limit=20&rating=pg`)
+				.get(`https://api.giphy.com/v1/gifs/search?api_key=${API_KEY}&q=${args.search_query}&offset=${(args.current_page-1)*20}&limit=20&rating=pg`)
 				.then(res => (res.data));
 			}
 		}

@@ -1,5 +1,5 @@
 // Home / Landing page / Explore page
-
+import Link from 'next/link';
 import { useState, useRef } from 'react';
 import Head from 'next/head';
 import Layout from '../components/Layout.js';
@@ -9,11 +9,16 @@ import '../sass/home.scss';
 
 
 const Index = () => {
+	// variables for the query
 	const [searchQuery, setSearchQuery] = useState("");
+	const [currentPage, setCurrentPage ] = useState(1);
 	const searchInput = useRef(null);
 
-	// for search button
-	const doSearch = () => { setSearchQuery(searchInput.current.value) };
+	// for search button: doing a search
+	const doSearch = () => {
+		setSearchQuery(searchInput.current.value);
+		setCurrentPage(1);
+	};
 	const onEnter = e => { if (e.key === 'Enter') doSearch(); };
 
 	return (
@@ -22,7 +27,13 @@ const Index = () => {
 				<title>Frames</title>
 			</Head>
 
-			<div id="landing-div"></div>
+			<div id="welcome-div">
+				<h1>
+					Welcome to Frames!<br/>
+					<Link href='/Register?show=signup'><a>Sign up</a></Link> to start collecting.
+				</h1>
+			</div>
+
 			<div id="search-bar">
 				<div>
 					<input ref={searchInput}
@@ -35,7 +46,11 @@ const Index = () => {
 				</div>
 			</div>
 
-			<Searches search_query={searchQuery} />
+			<Searches 
+				search_query={searchQuery} 
+				current_page={currentPage} 
+				setCurrentPage={setCurrentPage}
+			/>
 			
 
 		</Layout>
