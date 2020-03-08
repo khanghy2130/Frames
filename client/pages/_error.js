@@ -4,30 +4,18 @@ import Head from 'next/head';
 import Link from 'next/link';
 import Layout from '../components/Layout.js';
 
-const errorMessageStyle = {
-	fontSize: '2em',
-	paddingTop: '10em',
-	textAlign: 'center',
-	width: '100%'
-};
-
 const Error = ({ statusCode }) => {
   return (
-  	<Layout>
-		<Head>
-			<title>Error!</title>
-		</Head>
+  	<Layout pageTitle={`Page Not Found`}>
 
-		<div style={errorMessageStyle}>
+		<div id="error-page-div">
 			<p>
 		      {statusCode
 		        ? `An error ${statusCode} occurred on server`
 		        : 'An error occurred on client'}
 		    </p>
 		    <Link href="/">
-		    	<a style={{
-		    		textDecoration: "underline"
-		    	}}>Return Home</a>
+		    	<a>Return Home</a>
 		    </Link>
 		</div>
 	</Layout>

@@ -1,8 +1,11 @@
 import PropTypes from "prop-types";
 import Link from 'next/link';
-import Head from 'next/head';
 import { useRef, useEffect } from 'react';
 
+// components
+import HeadElement from './HeadElement.js';
+
+// styles & images
 import '../sass/layout.scss';
 import fullLogo from '../images/frames_full_logo.png';
 import logo from '../images/frames_logo.png';
@@ -11,7 +14,7 @@ const LOGO_BREAKPOINT = 580;
 
 
 
-const Layout = ({ children }) => {
+const Layout = ({ children, pageTitle }) => {
     const navElement = useRef(null);
     const buttonIcons = [useRef(null), useRef(null)];
     let showingNav = false;
@@ -39,13 +42,7 @@ const Layout = ({ children }) => {
 
     return (
         <div id='root'>
-            <Head>
-                <script src="https://kit.fontawesome.com/4f37f05942.js" 
-                crossOrigin="anonymous"></script>
-                <link href="https://fonts.googleapis.com/css?family=Offside|Ruluko&display=swap" 
-                rel="stylesheet"/>
-                <link rel="shortcut icon" href={logo} />
-            </Head>
+            <HeadElement pageTitle={pageTitle} />
 
             <header>
                 <div id="header-bar">
@@ -71,7 +68,7 @@ const Layout = ({ children }) => {
 
                 <div id="nav-div" onClick={toggleNav} className="hidden-nav" ref={navElement}>
                     <nav>
-                        <Link href='/'>
+                        <Link href='/Explore'>
                             <a>Explore</a>
                         </Link>
                         <Link href='/AllProfiles'>
@@ -114,6 +111,7 @@ const Layout = ({ children }) => {
 
 Layout.propTypes = {
   children: PropTypes.node.isRequired,
+  pageTitle: PropTypes.string.isRequired
 }
 
 export default Layout

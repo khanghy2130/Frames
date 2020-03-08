@@ -5,12 +5,10 @@ import ApolloClient, { InMemoryCache } from 'apollo-boost';
 import { ApolloProvider } from '@apollo/react-hooks';
 
 
-const dev = process.env.NODE_ENV === 'development';
-
 export default withApollo(
   ({ initialState }) => {
     return new ApolloClient({
-      uri: dev ? "http://localhost:3000/api/graphql" : process.env.MY_GRAPHQL_URL,
+      uri: "/api/graphql",
       cache: new InMemoryCache().restore(initialState || {})
     });
   },

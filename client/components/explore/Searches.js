@@ -1,10 +1,10 @@
 import PropTypes from "prop-types";
 import gql from 'graphql-tag';
 import { useQuery } from '@apollo/react-hooks';
-import withApollo from '../lib/withApollo.js';
+import withApollo from '../../lib/withApollo.js';
 import { Fragment } from 'react';
 
-import searchSuggestions from '../images/search_suggestions.png';
+import searchSuggestions from '../../images/search_suggestions.png';
 
 
 // show suggestions as default
@@ -93,6 +93,7 @@ const Searches = ({ search_query, current_page, setCurrentPage }) => {
 		}
 	}
 	
+	// gifs data retrieved, render results container and results info like page number
 	return (
 		<Fragment>
 			<div id="results-container">

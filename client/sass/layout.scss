@@ -35,6 +35,18 @@ button {
 	@extend .font-body;
 }
 
+// only styling for error page
+#error-page-div {
+	font-size: 2em;
+	padding-top: 10em;
+	text-align: center;
+	width: 100%;
+
+	a {
+		text-decoration: underline;
+		color: $main-blue;
+	}
+}
 
 
 /* Header */
