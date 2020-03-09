@@ -6,15 +6,15 @@ import HeadElement from '../components/HeadElement.js';
 import '../sass/layout.scss';
 import '../sass/landing.scss';
 
-const Index = () => (
+const index = () => (
 	<div id='root'>
 		<HeadElement pageTitle={'Frames | Collect GIFs'} />
 
 		<main id="landing-page-main">
-			<Link href="/Explore"><a>Let's Go</a></Link>
+			<Link href="/explore"><a>Let's Go</a></Link>
 		</main>
 		
 	</div>
 );
 
-export default Index;
+export default index;

@@ -68,17 +68,14 @@ const Layout = ({ children, pageTitle }) => {
 
                 <div id="nav-div" onClick={toggleNav} className="hidden-nav" ref={navElement}>
                     <nav>
-                        <Link href='/Explore'>
+                        <Link href='/explore'>
                             <a>Explore</a>
                         </Link>
-                        <Link href='/AllProfiles'>
+                        <Link href='/allProfiles'>
                             <a>All Profiles</a>
                         </Link>
-                        <Link href='/Register?show=login'>
+                        <Link href='/login'>
                             <a>Log In</a>
-                        </Link>
-                        <Link href='/Register?show=signup'>
-                            <a>Sign Up</a>
                         </Link>
 
                         <Link href='/'>
@@ -90,6 +87,10 @@ const Layout = ({ children, pageTitle }) => {
                         <Link href='/'>
                             <a>My Profile</a>
                         </Link>
+
+                        <form method="post" action="/logout">
+                            <button id="logout-button" type="submit">Log out</button>
+                        </form>
                     </nav>
                 </div>
             </header>

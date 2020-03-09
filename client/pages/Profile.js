@@ -3,7 +3,7 @@
 import PropTypes from "prop-types";
 
 
-const Profile = ({ profileName }) => {
+const profile = ({ profileName }) => {
 	console.log(profileName);
 
 	return (
@@ -14,12 +14,12 @@ const Profile = ({ profileName }) => {
 }
 
 // returning the object of params for the component
-Profile.getInitialProps = async ({ query }) => query;
+profile.getInitialProps = async ({ query }) => query;
 
 
 // check prop type
-Profile.propTypes = {
+profile.propTypes = {
   profileName: PropTypes.string.isRequired,
 }
 
-export default Profile
+export default profile

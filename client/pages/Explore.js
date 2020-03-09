@@ -7,7 +7,7 @@ import Searches from '../components/explore/Searches.js';
 import '../sass/explore.scss';
 
 
-const Explore = () => {
+const explore = () => {
 	// variables for the query
 	const [searchQuery, setSearchQuery] = useState("");
 	const [currentPage, setCurrentPage ] = useState(1);
@@ -51,4 +51,4 @@ const Explore = () => {
 		</Layout>
 	);
 }
-export default Explore;
+export default explore;

@@ -1,8 +1,8 @@
 // Page where the user views and manages their collections
 
-const MyCollections = () => (
+const myCollections = () => (
   <div>
     <p>Hello My Collections</p>
   </div>
 )
-export default MyCollections
+export default myCollections
