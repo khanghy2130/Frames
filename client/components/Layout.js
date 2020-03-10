@@ -47,7 +47,7 @@ const Layout = ({ children, pageTitle }) => {
             <header>
                 <div id="header-bar">
                     <div id="logo-container">
-                        <Link href='/'>
+                        <Link href='/landing'>
                             <picture>
                                 <source media={`(max-width: ${LOGO_BREAKPOINT}px)`} 
                                 srcSet={logo}/>
@@ -68,7 +68,7 @@ const Layout = ({ children, pageTitle }) => {
 
                 <div id="nav-div" onClick={toggleNav} className="hidden-nav" ref={navElement}>
                     <nav>
-                        <Link href='/explore'>
+                        <Link href='/'>
                             <a>Explore</a>
                         </Link>
                         <Link href='/allProfiles'>

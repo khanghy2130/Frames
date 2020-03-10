@@ -32,19 +32,10 @@ app.prepare()
 	}));
 
 
-	// TEST IF LOGGED IN
-	server.get("/in", (req, res) => {
-		if (req.userContext) {
-			console.log(req.userContext);
-			res.send(`Hi ${req.userContext.userinfo.name}!`);
-		} else {
-			res.send('You are not logged in!');
-		}
-	});
-
+	
 
 	// profile route ///
-	router(server, app);
+	router(server, app, oidc);
 
 	server.get('*', (req, res) => {
 		return handle(req, res);

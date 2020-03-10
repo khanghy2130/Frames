@@ -6,8 +6,20 @@ import Searches from '../components/explore/Searches.js';
 
 import '../sass/explore.scss';
 
+// welcome div
+const welcomeDiv = (userContext) => {
+	if (userContext) return (
+		<h1>Welcome back, {userContext.userinfo.name}!</h1>
+	);
+	else return (
+		<h1>
+			Welcome to Frames!<br/>
+			<Link href='/login'><a>Log in</a></Link> to start collecting.
+		</h1>
+	);
+};
 
-const explore = () => {
+const explore = ({userContext}) => {
 	// variables for the query
 	const [searchQuery, setSearchQuery] = useState("");
 	const [currentPage, setCurrentPage ] = useState(1);
@@ -23,10 +35,7 @@ const explore = () => {
 	return (
 		<Layout pageTitle={`Explore the GIFs`}>
 			<div id="welcome-div">
-				<h1>
-					Welcome to Frames!<br/>
-					<Link href='/Register?show=signup'><a>Sign up</a></Link> to start collecting.
-				</h1>
+				{welcomeDiv(userContext)}
 			</div>
 
 			<div id="search-bar">
@@ -51,4 +60,8 @@ const explore = () => {
 		</Layout>
 	);
 }
+
+// returning the object of params for the component
+explore.getInitialProps = async ({ query }) => query;
+
 export default explore;

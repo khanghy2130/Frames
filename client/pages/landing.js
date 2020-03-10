@@ -1,4 +1,4 @@
-// special landing page
+//  landing page
 
 import Link from 'next/link';
 import HeadElement from '../components/HeadElement.js';
@@ -6,7 +6,7 @@ import HeadElement from '../components/HeadElement.js';
 import '../sass/layout.scss';
 import '../sass/landing.scss';
 
-const index = () => (
+const landing = () => (
 	<div id='root'>
 		<HeadElement pageTitle={'Frames | Collect GIFs'} />
 
@@ -17,4 +17,4 @@ const index = () => (
 	</div>
 );
 
-export default index;
+export default landing;

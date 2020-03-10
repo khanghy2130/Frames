@@ -1,8 +1,8 @@
 // Page of the user's profile
 
-const myProfile = () => (
+const myProfile = ({ myName }) => (
   <div>
-    <p>Hello My Profile</p>
+    <p>My name: {myName}</p>
   </div>
 )
 export default myProfile

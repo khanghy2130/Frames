@@ -115,7 +115,10 @@ const Searches = ({ search_query, current_page, setCurrentPage }) => {
 					
 					<div>
 						<label>Go to page: </label>
-						<input id="page-number-input" type="number" defaultValue={pageInfo.current} />
+						<input id="page-number-input" 
+						type="number" 
+						defaultValue={pageInfo.current}
+						min={1} max={pageInfo.total} />
 						<button onClick={pageInfo.goToPage}>Go</button>
 					</div>
 				</div>
