@@ -9,7 +9,9 @@ import '../sass/explore.scss';
 // welcome div
 const welcomeDiv = (userContext) => {
 	if (userContext) return (
-		<h1>Welcome back, {userContext.userinfo.name}!</h1>
+		<h1>Welcome back,&nbsp;
+			<Link href='/myProfile'><a>{userContext.userinfo.name}</a></Link>
+		!</h1>
 	);
 	else return (
 		<h1>
@@ -33,7 +35,7 @@ const explore = ({userContext}) => {
 	const onEnter = e => { if (e.key === 'Enter') doSearch(); };
 
 	return (
-		<Layout pageTitle={`Explore the GIFs`}>
+		<Layout pageTitle={`Explore the GIFs`} userContext={userContext}>
 			<div id="welcome-div">
 				{welcomeDiv(userContext)}
 			</div>

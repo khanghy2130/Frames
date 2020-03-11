@@ -12,9 +12,45 @@ import logo from '../images/frames_logo.png';
 
 const LOGO_BREAKPOINT = 580;
 
+const navLinks = (userContext) => {
+    // logged in?
+    if (userContext) return (
+        <nav>
+            <Link href='/'>
+                <a>Explore</a>
+            </Link>
+            <Link href='/allProfiles'>
+                <a>All Profiles</a>
+            </Link>
+            <Link href='/'>
+                <a>Upgrade</a>
+            </Link>
+            <Link href='/myCollections'>
+                <a>My Collections</a>
+            </Link>
+            <Link href='/myProfile'>
+                <a>My Profile</a>
+            </Link>
+        </nav>
+    );
+    else return (
+        <nav>
+            <Link href='/'>
+                <a>Explore</a>
+            </Link>
+            <Link href='/allProfiles'>
+                <a>All Profiles</a>
+            </Link>
+            <Link href='/login'>
+                <a>Log In</a>
+            </Link>
+        </nav>
+    );
+};
 
 
-const Layout = ({ children, pageTitle }) => {
+// each page provides its contents, page title, and user object if logged in
+const Layout = ({ children, pageTitle, userContext }) => {
     const navElement = useRef(null);
     const buttonIcons = [useRef(null), useRef(null)];
     let showingNav = false;
@@ -36,8 +72,8 @@ const Layout = ({ children, pageTitle }) => {
     // when mounted
     useEffect(() => {
         // reset nav 
-        showingNav = true; toggleNav();
-
+        showingNav = true; 
+        toggleNav();
     });
 
     return (
@@ -67,31 +103,7 @@ const Layout = ({ children, pageTitle }) => {
                 </div>
 
                 <div id="nav-div" onClick={toggleNav} className="hidden-nav" ref={navElement}>
-                    <nav>
-                        <Link href='/'>
-                            <a>Explore</a>
-                        </Link>
-                        <Link href='/allProfiles'>
-                            <a>All Profiles</a>
-                        </Link>
-                        <Link href='/login'>
-                            <a>Log In</a>
-                        </Link>
-
-                        <Link href='/'>
-                            <a>Upgrade</a>
-                        </Link>
-                        <Link href='/'>
-                            <a>My Collections</a>
-                        </Link>
-                        <Link href='/'>
-                            <a>My Profile</a>
-                        </Link>
-
-                        <form method="post" action="/logout">
-                            <button id="logout-button" type="submit">Log out</button>
-                        </form>
-                    </nav>
+                    {navLinks(userContext)}
                 </div>
             </header>
 
@@ -116,3 +128,9 @@ Layout.propTypes = {
 }
 
 export default Layout
+
+/*
+<form method="post" action="/logout">
+    <button id="logout-button" type="submit">Log out</button>
+</form>
+*/

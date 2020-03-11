@@ -13,7 +13,6 @@ const router = require('./router.js');
 // setup
 const dev = process.env.NODE_ENV === 'development';
 const app = next({ dev, dir: './client' }); // dev mode and client directory
-const handle = app.getRequestHandler();
 
 
 app.prepare()
@@ -31,15 +30,9 @@ app.prepare()
 		graphiql: dev
 	}));
 
-
 	
-
 	// profile route ///
 	router(server, app, oidc);
-
-	server.get('*', (req, res) => {
-		return handle(req, res);
-	});
 
 
 	// START SERVER
