@@ -4,7 +4,7 @@ import { useState, useRef } from 'react';
 import Layout from '../components/Layout.js';
 import Searches from '../components/explore/Searches.js';
 
-import '../sass/explore.scss';
+import '../sass/pages/explore.scss';
 
 // welcome div
 const welcomeDiv = (userContext) => {

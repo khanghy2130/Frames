@@ -128,9 +128,3 @@ Layout.propTypes = {
 }
 
 export default Layout
-
-/*
-<form method="post" action="/logout">
-    <button id="logout-button" type="submit">Log out</button>
-</form>
-*/

@@ -1,12 +1,11 @@
 // 404 and error page
 
-import Head from 'next/head';
 import Link from 'next/link';
 import Layout from '../components/Layout.js';
 
 const Error = ({ statusCode }) => {
   return (
-  	<Layout pageTitle={`Page Not Found`}>
+  	<Layout pageTitle={`Page Not Found`} userContext={undefined}>
 
 		<div id="error-page-div">
 			<p>
