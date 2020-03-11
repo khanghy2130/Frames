@@ -10,13 +10,15 @@ import '../sass/explore.scss';
 const welcomeDiv = (userContext) => {
 	if (userContext) return (
 		<h1>Welcome back,&nbsp;
-			<Link href='/myProfile'><a>{userContext.userinfo.name}</a></Link>
+			<Link href='/myProfile'>
+				<a>{userContext.userinfo.name}</a>
+			</Link>
 		!</h1>
 	);
 	else return (
 		<h1>
 			Welcome to Frames!<br/>
-			<Link href='/login'><a>Log in</a></Link> to start collecting.
+			<a href='/login'>Log in</a> to start collecting.
 		</h1>
 	);
 };
