@@ -2,10 +2,12 @@ import PropTypes from "prop-types";
 import gql from 'graphql-tag';
 import { useQuery } from '@apollo/react-hooks';
 import withApollo from '../../lib/withApollo.js';
+
+import ReactImageFallback from 'react-image-fallback';
 import { Fragment } from 'react';
 
 import searchSuggestions from '../../images/search_suggestions.png';
-
+import spinnerImage from '../../images/spinner.gif'; // showed while loading results
 
 // show suggestions as default
 const suggestionsImage = () => (
@@ -14,7 +16,7 @@ const suggestionsImage = () => (
 	</div>
 );
  
-const Searches = ({ search_query, current_page, setCurrentPage }) => {
+const Searches = ({ search_query, current_page, setCurrentPage, setAlertMessage }) => {
 	if (search_query.length === 0) return suggestionsImage();
 
 
@@ -26,6 +28,7 @@ const Searches = ({ search_query, current_page, setCurrentPage }) => {
 				# >> List of GIF objects
 				data {
 					id
+					title
 					images {
 						original {
 							webp
@@ -63,6 +66,7 @@ const Searches = ({ search_query, current_page, setCurrentPage }) => {
 
 	// when a gif is clicked
 	const gifClicked = function(item) {
+		console.log(item.title);
 		console.log(item.images.original.webp);
 	};
 
@@ -74,11 +78,11 @@ const Searches = ({ search_query, current_page, setCurrentPage }) => {
 			
 			// is current?
 			if (pNum === pageInfo.current){
-				alert(`Already on page ${pNum}`);
+				setAlertMessage(`Already on page ${pNum}`);
 			}
 			// not within range?
 			else if (pNum < 1 || pNum > pageInfo.total){
-				alert(`Please enter a page from 1 to ${pageInfo.total}`);
+				setAlertMessage(`Please enter a page from 1 to ${pageInfo.total}`);
 			}
 			else {
 				setCurrentPage(pNum)
@@ -99,8 +103,11 @@ const Searches = ({ search_query, current_page, setCurrentPage }) => {
 			<div id="results-container">
 				{results_data.map( (item) => (
 					<div className="gif-div" key={item.id}>
-						<img onClick={ () => {gifClicked(item)} } 
-						src={item.images.original.webp} />
+						<ReactImageFallback 
+							onClick={ () => {gifClicked(item)} } 
+							src={item.images.original.webp}
+							initialImage={spinnerImage}
+						/>
 					</div>
 				) )}
 			</div>

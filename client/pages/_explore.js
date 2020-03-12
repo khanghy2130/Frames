@@ -1,12 +1,14 @@
 // Explore page
 import Link from 'next/link';
 import { useState, useRef } from 'react';
+
 import Layout from '../components/Layout.js';
+import Alert from '../components/Alert.js';
 import Searches from '../components/explore/Searches.js';
 
 import '../sass/pages/explore.scss';
 
-// welcome div
+// welcome div component
 const welcomeDiv = (userContext) => {
 	if (userContext) return (
 		<h1>Welcome back,&nbsp;
@@ -23,7 +25,10 @@ const welcomeDiv = (userContext) => {
 	);
 };
 
-const explore = ({userContext}) => {
+const explore = ({ userContext, errorMessage }) => {
+	// show alert if error message was sent from server
+	const [alertMessage, setAlertMessage] = useState(errorMessage);
+
 	// variables for the query
 	const [searchQuery, setSearchQuery] = useState("");
 	const [currentPage, setCurrentPage ] = useState(1);
@@ -35,7 +40,7 @@ const explore = ({userContext}) => {
 		setCurrentPage(1);
 	};
 	const onEnter = e => { if (e.key === 'Enter') doSearch(); };
-
+	
 	return (
 		<Layout pageTitle={`Explore the GIFs`} userContext={userContext}>
 			<div id="welcome-div">
@@ -58,9 +63,10 @@ const explore = ({userContext}) => {
 				search_query={searchQuery} 
 				current_page={currentPage} 
 				setCurrentPage={setCurrentPage}
+				setAlertMessage={setAlertMessage}
 			/>
-			
 
+			<Alert alertMessage={alertMessage} setAlertMessage={setAlertMessage} />
 		</Layout>
 	);
 }

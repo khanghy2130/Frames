@@ -28,6 +28,7 @@ const GifObjectType = new GraphQLObjectType({
 
 	fields: () => ({
 		id: { type: GraphQLString },
+		title: { type: GraphQLString },
 
 		// getting images.original.webp
 		images: { type: new GraphQLObjectType({

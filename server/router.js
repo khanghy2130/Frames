@@ -26,7 +26,10 @@ module.exports = function(server, app, oidc){
 
 	// Not Found Page
 	server.get('*', (req, res) => {
-		app.render(req, res, '/_error');
+		app.render(req, res, '/_explore', { 
+			userContext : req.userContext,
+			errorMessage: "Page not found."
+		});
 	});
 
 

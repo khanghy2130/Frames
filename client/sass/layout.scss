@@ -48,6 +48,44 @@ button {
 	}
 }
 
+// modal component styling
+#modal {
+	position: fixed;
+	z-index: 10;
+	left: 0;
+	top: 0;
+	width: 100vw;
+	height: 100vh;
+	background-color: rgba(0,0,0,0.5);
+
+	padding: 25vh 25vw 0;
+
+	& > div {
+		background-color: $dark-2;
+		text-align: center;
+		padding: 2em;
+
+		h1 {
+			@extend .font-header;
+			color: $light-1;
+		}
+
+		p {
+			padding: 1em 0 2em;
+			font-size: 1.5em;
+			color: $light-1;
+		}
+
+		button {
+			@extend .button-hover-class;
+			@extend .font-header;
+			color: $main-blue;
+			font-size: 2em;
+			padding: 0.5em;
+		}
+	}
+}
+
 
 /* Header */
 header {
@@ -68,7 +106,6 @@ header {
 		}
 
 		#nav-toggler {
-			outline: none;
 			color: $main-blue;
 			padding: 0.5em 1em;
 			font-size: 2.5vw;
@@ -82,7 +119,7 @@ header {
 		justify-content: flex-end;
 		align-items: flex-start;
 
-		width: 100%;
+		width: 100vw;
 		height: 100vh;
 		overflow: hidden;
 		background-color: rgba(0, 0, 0, 0.5);
@@ -153,6 +190,10 @@ footer {
 @media only screen and (max-width: $tablet-bp){
 	#root {
 		font-size: 1.2em;
+	}
+
+	#modal {
+		padding: 20vh 5vw 0;
 	}
 
 	header {
