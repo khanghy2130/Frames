@@ -17,32 +17,48 @@ const navLinks = (userContext) => {
     if (userContext) return (
         <nav>
             <Link href='/'>
-                <a>Explore</a>
+                <a>
+                    <i className="fas fa-search"/>&nbsp;Explore
+                </a>
             </Link>
             <Link href='/allProfiles'>
-                <a>All Profiles</a>
+                <a>
+                    <i className="fas fa-users"/>&nbsp;All Profiles
+                </a>
             </Link>
             <Link href='/'>
-                <a>Upgrade</a>
+                <a>
+                    <i className="far fa-dot-circle"/>&nbsp;Upgrade
+                </a>
             </Link>
             <Link href='/myCollections'>
-                <a>My Collections</a>
+                <a>
+                    <i className="fas fa-th-large"/>&nbsp;My Collections
+                </a>
             </Link>
             <Link href='/myProfile'>
-                <a>My Profile</a>
+                <a>
+                    <i className="fas fa-user"/>&nbsp;My Profile
+                </a>
             </Link>
         </nav>
     );
     else return (
         <nav>
             <Link href='/'>
-                <a>Explore</a>
+                <a>
+                    <i className="fas fa-search"/>&nbsp;Explore
+                </a>
             </Link>
             <Link href='/allProfiles'>
-                <a>All Profiles</a>
+                <a>
+                    <i className="fas fa-users"/>&nbsp;All Profiles
+                </a>
             </Link>
             <Link href='/login'>
-                <a>Log In</a>
+                <a>
+                    <i className="fas fa-sign-in-alt"/>&nbsp;Log In
+                </a>
             </Link>
         </nav>
     );
@@ -94,10 +110,10 @@ const Layout = ({ children, pageTitle, userContext }) => {
 
                     <button id="nav-toggler" onClick={toggleNav}>
                         <span ref={buttonIcons[0]}>
-                            <i className="fas fa-angle-down"></i>
+                            <i className="fas fa-angle-down"/>
                         </span>
                         <span ref={buttonIcons[1]} hidden>
-                            <i className="fas fa-angle-up"></i>
+                            <i className="fas fa-angle-up"/>
                         </span>
                     </button>
                 </div>

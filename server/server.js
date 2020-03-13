@@ -1,11 +1,14 @@
 require('dotenv').config(); // read .env file
 const PORT = process.env.PORT || 3000;
+const DBURL = process.env.DBURL || "mongodb://localhost:27017/test";
 
 const express = require('express');
+const mongoose = require('mongoose');
 const graphqlHTTP = require("express-graphql");
 const next = require('next');
 const cors = require('cors');
 
+// my modules
 const OIDCRouter = require('./OIDCRouter.js');
 const graphql_schema = require('./graphql_schema.js');
 const router = require('./router.js');
@@ -21,6 +24,15 @@ app.prepare()
 
 	// set up OIDC
 	const oidc = OIDCRouter(server);
+
+	// connect to mongoDB
+	mongoose.connect(DBURL, {useNewUrlParser: true, useUnifiedTopology: true})
+		.then(() => {
+			console.log("Connected to DB");
+		})
+		.catch(err => {
+			console.log("Failed to connect to DB: " + err.message);
+		});
 
 	// Allow cross-origin
 	server.use(cors());

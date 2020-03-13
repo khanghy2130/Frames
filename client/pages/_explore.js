@@ -11,7 +11,7 @@ import '../sass/pages/explore.scss';
 // welcome div component
 const welcomeDiv = (userContext) => {
 	if (userContext) return (
-		<h1>Welcome back,&nbsp;
+		<h1>Welcome back, &shy;
 			<Link href='/myProfile'>
 				<a>{userContext.userinfo.name}</a>
 			</Link>
@@ -54,7 +54,7 @@ const explore = ({ userContext, errorMessage }) => {
 					type="text" 
 					placeholder="Search" />
 					<button onClick={doSearch}>
-						<i className="fas fa-search"></i>
+						<i className="fas fa-search"/>
 					</button>
 				</div>
 			</div>
