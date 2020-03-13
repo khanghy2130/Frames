@@ -1,45 +1,56 @@
-// models
-const User = require("./models/user.js");
+// object with methods dealing with database
+const db_methods = require('./database_methods.js');
 
 module.exports = function(server, app, oidc){
 
 	// root route will render /explore
 	server.get("/", (req, res) => {
-		app.render(req, res, '/_explore', { userContext : req.userContext });
+		// check to create new user (if logged in)
+		if (req.isAuthenticated()){
+			// async iife
+			(async function(){
+				const msg = await db_methods.checkCreateNewUser(req.userContext.userinfo);
+
+				if (msg){
+					app.render(req, res, '/_explore', {
+						userContext : req.userContext,
+						serverMessage: msg
+					});
+				} 
+				// user already exists
+				else {
+					app.render(req, res, '/_explore', {
+						userContext : req.userContext
+					});
+				}
+			})()
+		}
+		// unauthenticated
+		else {
+			app.render(req, res, '/_explore', {
+				userContext: null
+			});
+		}
 	});
 
 
 	// AUTHENTICATION NEEDED ROUTES
 
-	// my profile page https://dev-392439.okta.com/api/v1/users/me
 	server.get('/myProfile', oidc.ensureAuthenticated(), (req, res) => {
-		app.render(req, res, '/authenticated/_myProfile', { userContext : req.userContext });
+		app.render(req, res, '/authenticated/_myProfile', {
+			userContext : req.userContext
+		});
 	});
 
 
 
 
 	////// TEST ROUTES
-	server.get('/createuser', (req, res) => {
-		User.create( {
-			okta_id: "okta id yes",
-			display_name: "userTester01",
-			avatar_seed: "2664823",
-			pro: true,
-			collections: [],
-			friends: []
-		}, function (err, createdUser) {
-			if (err) {
-				console.log(err);
-				// set alert FAILED TO CREATE USER
-				res.send('FAILED TO CREATE USER');
-			}
-			else {
-				res.send('User created');
-			}
-		});
-		
+
+	server.get('/getuser', (req, res) => {
+		res.send(req.userContext);
 	});
+
 
 
 	// NO AUTHENTICATION NEEDED ROUTES
@@ -55,11 +66,11 @@ module.exports = function(server, app, oidc){
 		app.render(req, res, '/_landing')
 	});
 
-	// Not Found Page
+	// Not Found Page (redirect to '/' with alert message)
 	server.get('*', (req, res) => {
 		app.render(req, res, '/_explore', { 
 			userContext : req.userContext,
-			errorMessage: "Page not found."
+			serverMessage: "Page not found."
 		});
 	});
 

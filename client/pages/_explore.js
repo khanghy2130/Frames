@@ -1,4 +1,6 @@
 // Explore page
+// Show alert
+
 import Link from 'next/link';
 import { useState, useRef } from 'react';
 
@@ -25,9 +27,9 @@ const welcomeDiv = (userContext) => {
 	);
 };
 
-const explore = ({ userContext, errorMessage }) => {
-	// show alert if error message was sent from server
-	const [alertMessage, setAlertMessage] = useState(errorMessage);
+const explore = ({ userContext, serverMessage }) => {
+	// show alert if a message was defined from server
+	const [alertMessage, setAlertMessage] = useState(serverMessage);
 
 	// variables for the query
 	const [searchQuery, setSearchQuery] = useState("");
