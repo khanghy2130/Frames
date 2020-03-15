@@ -4,7 +4,6 @@ const UserSchema = new mongoose.Schema({
 	okta_id: String,
 	display_name: String,
 	avatar_seed: String,
-	pro: Boolean,
 
 	collections: [
 		// item: collection object

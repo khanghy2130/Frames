@@ -1,3 +1,6 @@
+// layout takes in pageTitle and renders navbar and footer
+// wrapping page contents in <main>
+
 import PropTypes from "prop-types";
 import Link from 'next/link';
 import { useRef, useEffect } from 'react';
@@ -12,9 +15,9 @@ import logo from '../images/frames_logo.png';
 
 const LOGO_BREAKPOINT = 580;
 
-const navLinks = (userContext) => {
+const navLinks = (isAuthenticated) => {
     // logged in?
-    if (userContext) return (
+    if (isAuthenticated) return (
         <nav>
             <Link href='/'>
                 <a>
@@ -24,11 +27,6 @@ const navLinks = (userContext) => {
             <Link href='/allProfiles'>
                 <a>
                     <i className="fas fa-users"/>&nbsp;All Profiles
-                </a>
-            </Link>
-            <Link href='/'>
-                <a>
-                    <i className="far fa-dot-circle"/>&nbsp;Upgrade
                 </a>
             </Link>
             <Link href='/myCollections'>
@@ -66,7 +64,7 @@ const navLinks = (userContext) => {
 
 
 // each page provides its contents, page title, and user object if logged in
-const Layout = ({ children, pageTitle, userContext }) => {
+const Layout = ({ children, pageTitle, isAuthenticated }) => {
     const navElement = useRef(null);
     const buttonIcons = [useRef(null), useRef(null)];
     let showingNav = false;
@@ -119,7 +117,7 @@ const Layout = ({ children, pageTitle, userContext }) => {
                 </div>
 
                 <div id="nav-div" onClick={toggleNav} className="hidden-nav" ref={navElement}>
-                    {navLinks(userContext)}
+                    {navLinks(isAuthenticated)}
                 </div>
             </header>
 

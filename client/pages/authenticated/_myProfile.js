@@ -1,12 +1,32 @@
 // Page of the user's profile
 
-const myProfile = ({ userContext }) => {
-	if (userContext) return (
-		<div>
-			<p>My name: {userContext.userinfo.name}</p>
-		</div>
-	);
-	// no userContext?
+import Link from 'next/link';
+
+import '../../sass/pages/myProfile.scss';
+import Layout from '../../components/Layout.js';
+import AvatarDiv from '../../components/myProfile/AvatarDiv.js';
+
+const myProfile = ({ userData }) => {
+	if (userData) {
+		return (
+			<Layout 
+			pageTitle={`My Profile`}
+			isAuthenticated={true}>
+
+				<section id="profile-info-section">
+					<h1>{userData.display_name}</h1>
+					<AvatarDiv 
+					avatar_seed={userData.avatar_seed}
+					display_name={userData.display_name} />
+				</section>
+
+				<section id="profile-contents-section">
+					Work on the avatar changing :)
+				</section>
+			</Layout>
+		);
+	}
+	// handle when no userContext received
 	else return (
 		<p>No user object received.</p>
 	);

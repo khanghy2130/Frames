@@ -1,0 +1,77 @@
+@import '../variables';
+
+main {
+	display: flex;
+	flex-direction: row;
+
+	#profile-info-section {
+		background-color: $dark-2;
+		width: 15em;
+		padding-top: 9em;
+		padding-bottom: 2em;
+		text-align: center;
+
+		// user name
+		& > h1 {
+			@extend .font-header;
+			color: $light-1;
+			font-size: 1.2em;
+		}
+
+		#avatar-div {
+			width: 100%;
+			
+			// avatar
+			img {
+				width: 70%;
+				margin: 0.7em 0;
+			}
+			#avatar-setting-div {
+				// all buttons
+				button {
+					@extend .button-hover-class;
+					font-size: 1.5em;
+					color: $light-1;
+					padding: 0.5em;
+				}
+
+				
+			}
+			
+
+		}
+	}
+
+	#profile-contents-section {
+		background-color: $main-blue; //////////
+		flex-grow: 1; // fill space
+		padding-top: 9em;
+
+	}
+}
+
+@media only screen and (max-width: $tablet-bp){
+	main {
+		flex-direction: column;
+
+		#profile-info-section {
+			width: 100%; // full width
+
+			h1 {
+				font-size: 7vw;
+			}
+			#avatar-div {
+				#avatar-setting-div {
+					// bigger setting buttons
+					button {
+						font-size: 8vw;
+					}
+				}
+			}
+		}
+
+		#profile-contents-section {
+			padding-top: 2em; // no longer need to leave space for navbar
+		}
+	}
+}

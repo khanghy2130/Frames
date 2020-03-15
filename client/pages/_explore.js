@@ -44,7 +44,9 @@ const explore = ({ userContext, serverMessage }) => {
 	const onEnter = e => { if (e.key === 'Enter') doSearch(); };
 	
 	return (
-		<Layout pageTitle={`Explore the GIFs`} userContext={userContext}>
+		<Layout 
+		pageTitle={`Explore the GIFs`}
+		isAuthenticated={typeof userContext != "undefined"}>
 			<div id="welcome-div">
 				{welcomeDiv(userContext)}
 			</div>

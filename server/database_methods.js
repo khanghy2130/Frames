@@ -17,7 +17,6 @@ module.exports = {
 					okta_id: userinfo.sub,
 					display_name: userinfo.name,
 					avatar_seed: "138",
-					pro: false,
 					collections: [],
 					friends: []
 				}, function (err, createdUser) {
@@ -29,6 +28,16 @@ module.exports = {
 		})
 	},
 
-
+	// get data of the currently logged in user
+	getCurrentUserData: function(userinfo){
+		return new Promise( function (resolve){
+			User.findOne({
+				okta_id: userinfo.sub
+			}, function(err, foundUser){
+				if (err) resolve(null);
+				else resolve(foundUser);
+			});
+		});
+	}
 
 };

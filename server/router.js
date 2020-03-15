@@ -37,9 +37,23 @@ module.exports = function(server, app, oidc){
 	// AUTHENTICATION NEEDED ROUTES
 
 	server.get('/myProfile', oidc.ensureAuthenticated(), (req, res) => {
-		app.render(req, res, '/authenticated/_myProfile', {
-			userContext : req.userContext
-		});
+		(async function(){
+			// get current user info from database
+			const userData = await db_methods.getCurrentUserData(req.userContext.userinfo);
+			// successful fetch
+			if (userData){
+				app.render(req, res, '/authenticated/_myProfile', {
+					userData : userData
+				});
+			}
+			// unsuccessful fetch
+			else {
+				app.render(req, res, '/_explore', {
+					userContext : req.userContext,
+					serverMessage: "Error while fetching user data."
+				});
+			}
+		})()
 	});
 
 
@@ -47,8 +61,16 @@ module.exports = function(server, app, oidc){
 
 	////// TEST ROUTES
 
-	server.get('/getuser', (req, res) => {
-		res.send(req.userContext);
+	server.get('/myProfile_test', (req, res) => {
+		app.render(req, res, '/authenticated/_myProfile', {
+			userData : {
+				okta_id: "5e6da9086c73b92d24dc95f1",
+				display_name: "AwesomeUser52",
+				avatar_seed: "138",
+				collections: [],
+				friends: []
+			}
+		});
 	});
 
 
