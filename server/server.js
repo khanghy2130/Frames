@@ -34,13 +34,15 @@ app.prepare()
 			console.log("Failed to connect to DB: " + err.message);
 		});
 
-	// Allow cross-origin
-	server.use(cors());
+	
+	server.use(cors()); // Allow cross-origin
+	server.use(express.json()); // Parse JSON bodies from POST requests
 	// graphql route
 	server.use('/api/graphql', graphqlHTTP({
 		schema : graphql_schema,
 		graphiql: dev
 	}));
+
 
 	
 	// profile route ///

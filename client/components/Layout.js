@@ -1,5 +1,5 @@
-// layout takes in pageTitle and renders navbar and footer
-// wrapping page contents in <main>
+// layout takes in pageTitle and isAuthenticated. renders navbar and footer
+// wrapping page contents in <main> with given css id
 
 import PropTypes from "prop-types";
 import Link from 'next/link';
@@ -64,7 +64,7 @@ const navLinks = (isAuthenticated) => {
 
 
 // each page provides its contents, page title, and user object if logged in
-const Layout = ({ children, pageTitle, isAuthenticated }) => {
+const Layout = ({ children, pageTitle, isAuthenticated, mainCssId }) => {
     const navElement = useRef(null);
     const buttonIcons = [useRef(null), useRef(null)];
     let showingNav = false;
@@ -122,7 +122,7 @@ const Layout = ({ children, pageTitle, isAuthenticated }) => {
             </header>
 
 
-            <main>{children}</main>
+            <main id={mainCssId}>{children}</main>
 
 
             <footer>

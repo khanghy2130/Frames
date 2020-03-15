@@ -1,6 +1,6 @@
 @import '../variables';
 
-main {
+#explore-main {
 	#welcome-div {
 		padding: 10em 0.5em 3em;
 		text-align: center;
@@ -147,7 +147,7 @@ main {
 }
 
 @media only screen and (max-width: $desktop-bp){
-	main {
+	#explore-main {
 		#welcome-div {
 			padding-top: 9em;
 		}
@@ -155,7 +155,7 @@ main {
 }
 
 @media only screen and (max-width: $tablet-bp){
-	main {
+	#explore-main {
 
 		#search-bar {
 			div {

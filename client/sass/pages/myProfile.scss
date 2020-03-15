@@ -1,6 +1,6 @@
 @import '../variables';
 
-main {
+#myProfile-main {
 	display: flex;
 	flex-direction: row;
 
@@ -26,6 +26,7 @@ main {
 				width: 70%;
 				margin: 0.7em 0;
 			}
+			// Selecting elements based on structure
 			#avatar-setting-div {
 				// all buttons
 				button {
@@ -35,7 +36,33 @@ main {
 					padding: 0.5em;
 				}
 
-				
+				// gear icon button
+				& > button {
+					width: 100%;
+				}
+
+				// randomize button div
+				div:nth-child(1) {
+					button {
+						width: 100%;
+					}
+				}
+				// apply and cancel buttons div
+				div:nth-child(2) {
+					display: flex;
+
+					// both buttons stretch to fill the row
+					button {
+						flex-grow: 1;
+						&:nth-child(1){
+							color: #7aff52;
+						}
+						&:nth-child(2){
+							color: #ff6363;
+						}
+					}
+
+				}
 			}
 			
 
@@ -51,7 +78,7 @@ main {
 }
 
 @media only screen and (max-width: $tablet-bp){
-	main {
+	#myProfile-main {
 		flex-direction: column;
 
 		#profile-info-section {

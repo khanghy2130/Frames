@@ -56,7 +56,10 @@ module.exports = function(server, app, oidc){
 		})()
 	});
 
-
+	server.post('/myProfile/change_seed', oidc.ensureAuthenticated(), (req, res) => {
+		// update avatar seed to current user
+		db_methods.setAvatarSeed(req.userContext.userinfo, req.body.new_avatar_seed);
+	});
 
 
 	////// TEST ROUTES

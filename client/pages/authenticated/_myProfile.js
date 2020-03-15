@@ -10,6 +10,7 @@ const myProfile = ({ userData }) => {
 	if (userData) {
 		return (
 			<Layout 
+			mainCssId="myProfile-main"
 			pageTitle={`My Profile`}
 			isAuthenticated={true}>
 
