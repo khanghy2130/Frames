@@ -1,5 +1,6 @@
 // models
 const User = require("./models/user.js");
+const Collection = require("./models/collection.js");
 
 
 module.exports = {
@@ -42,7 +43,7 @@ module.exports = {
 		});
 	},
 
-	// /myProfile/change_seed route
+	// /myProfile/change_seed POST route
 	setAvatarSeed: function(userinfo, new_avatar_seed){
 		// find, update, then save
 		User.findOne({
@@ -51,6 +52,17 @@ module.exports = {
 			if (err) return console.log(err);
 			foundUser.avatar_seed = new_avatar_seed;
 			foundUser.save();
+		});
+	},
+
+	// /myProfile/create_collection POST route
+	createNewCollection: function(userinfo){
+		Collection.create( {
+			title: "Untitled Collection",
+			visibility: 2,
+			gifs: []
+		}, function (err, createdCollection) {
+			if (err) console.log(err);
 		});
 	}
 

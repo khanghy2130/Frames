@@ -9,8 +9,6 @@
 		width: 15em;
 		padding-top: 10em;
 		text-align: center;
-		display: flex;
-		flex-direction: column;
 
 		// user name
 		& > h1 {
@@ -29,7 +27,7 @@
 			}
 			// Selecting elements based on structure
 			#avatar-setting-div {
-
+				min-height: 7em; // showing setting won't change height
 				// all buttons
 				button {
 					@extend .button-hover-class;
@@ -68,29 +66,73 @@
 			}
 		}
 
-		form {
-			// make log out button at the button
-			justify-self: flex-end;
-			flex-grow: 1;
-			display: flex;
-			align-items: flex-end;
-
-			#logout-button {
-				@extend .button-hover-class;
-				width: 100%;
-				color: #ff6363;
-				font-size: 1.5em;
-				padding: 0.5em 0;
-				margin-top: 2em;
-			}
+		#logout-button {
+			@extend .button-hover-class;
+			@extend .font-body;
+			width: 100%;
+			color: #ff6363;
+			font-size: 1.5em;
+			padding: 0.5em 0;
+			margin-top: 2em;
 		}
 	}
 
 	#profile-contents-section {
-		background-color: $main-blue; //////////
 		flex-grow: 1; // fill space
-		padding-top: 9em;
+		padding-top: 10em;
+		color: $dark-2;
+		text-align: center;
 
+		#collections-section {
+			// header
+			& > h1 {
+				@extend .font-header;
+				font-size: 2em;
+			}
+
+			#collections-container {
+				background-color: $dark-2;
+				margin: 1.5em 2em 2.5em;
+
+				.collection-item {
+					display: flex;
+					
+					// both buttons
+					button {
+						@extend .button-hover-class;
+						@extend .font-body;
+						color: $light-1;
+						font-size: 1.2em;
+
+						&:hover {
+							color: $main-blue;
+						}
+					}
+
+					.collection-title {
+						text-align: left;
+						flex-grow: 1;
+						padding: 0.7em 1em;
+					}
+					
+					.collection-edit {
+						padding: 0.7em;
+					}
+				}
+
+				#create-collection-button {
+					@extend .button-hover-class;
+					@extend .font-body;
+					color: $light-1;
+					font-size: 1.2em;
+					width: 100%;
+					padding: 0.7em;
+					&:hover {
+						color: $main-blue;
+					}
+				}
+			}
+		}
 	}
 }
 
@@ -120,7 +162,14 @@
 		}
 
 		#profile-contents-section {
-			padding-top: 2em; // no longer need to leave space for navbar
+			padding-top: 3.5em; // no longer need to leave space for navbar
+
+			#collections-section {
+				#collections-container {
+					margin-left: 0.7em;
+					margin-right: 0.7em;
+				}
+			}
 		}
 	}
 }
