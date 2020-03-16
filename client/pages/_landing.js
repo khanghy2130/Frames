@@ -13,11 +13,6 @@ const landing = () => (
 		<main id="landing-page-main">
 			<Link href="/"><a>Let's Go</a></Link>
 
-
-
-			<form method="post" action="/logout">
-			    <button id="logout-button" type="submit">Log out</button>
-			</form>
 		</main>
 	</div>
 );

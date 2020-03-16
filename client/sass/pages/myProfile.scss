@@ -7,9 +7,10 @@
 	#profile-info-section {
 		background-color: $dark-2;
 		width: 15em;
-		padding-top: 9em;
-		padding-bottom: 2em;
+		padding-top: 10em;
 		text-align: center;
+		display: flex;
+		flex-direction: column;
 
 		// user name
 		& > h1 {
@@ -28,6 +29,7 @@
 			}
 			// Selecting elements based on structure
 			#avatar-setting-div {
+
 				// all buttons
 				button {
 					@extend .button-hover-class;
@@ -64,8 +66,23 @@
 
 				}
 			}
-			
+		}
 
+		form {
+			// make log out button at the button
+			justify-self: flex-end;
+			flex-grow: 1;
+			display: flex;
+			align-items: flex-end;
+
+			#logout-button {
+				@extend .button-hover-class;
+				width: 100%;
+				color: #ff6363;
+				font-size: 1.5em;
+				padding: 0.5em 0;
+				margin-top: 2em;
+			}
 		}
 	}
 
@@ -93,6 +110,11 @@
 					button {
 						font-size: 8vw;
 					}
+				}
+			}
+			form {
+				#logout-button {
+					font-size: 6vw;
 				}
 			}
 		}

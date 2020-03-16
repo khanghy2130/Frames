@@ -63,13 +63,13 @@ module.exports = function(server, app, oidc){
 
 
 	////// TEST ROUTES
-
+	// unauthenticated myProfile route for quick styling test
 	server.get('/myProfile_test', (req, res) => {
 		app.render(req, res, '/authenticated/_myProfile', {
 			userData : {
 				okta_id: "5e6da9086c73b92d24dc95f1",
 				display_name: "AwesomeUser52",
-				avatar_seed: "138",
+				avatar_seed: "35957",
 				collections: [],
 				friends: []
 			}

@@ -26,12 +26,7 @@ const navLinks = (isAuthenticated) => {
             </Link>
             <Link href='/allProfiles'>
                 <a>
-                    <i className="fas fa-users"/>&nbsp;All Profiles
-                </a>
-            </Link>
-            <Link href='/myCollections'>
-                <a>
-                    <i className="fas fa-th-large"/>&nbsp;My Collections
+                    <i className="fas fa-users"/>&nbsp;Community
                 </a>
             </Link>
             <Link href='/myProfile'>
@@ -50,7 +45,7 @@ const navLinks = (isAuthenticated) => {
             </Link>
             <Link href='/allProfiles'>
                 <a>
-                    <i className="fas fa-users"/>&nbsp;All Profiles
+                    <i className="fas fa-users"/>&nbsp;Community
                 </a>
             </Link>
             <Link href='/login'>

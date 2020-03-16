@@ -16,9 +16,15 @@ const myProfile = ({ userData }) => {
 
 				<section id="profile-info-section">
 					<h1>{userData.display_name}</h1>
-					<AvatarDiv 
+					<AvatarDiv
 					avatar_seed={userData.avatar_seed}
 					display_name={userData.display_name} />
+
+					<form method="post" action="/logout">
+					    <button id="logout-button" type="submit">
+					    	<i className="fas fa-sign-out-alt"/>&nbsp;Log out
+					    </button>
+					</form>
 				</section>
 
 				<section id="profile-contents-section">

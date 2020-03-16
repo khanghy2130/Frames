@@ -11,7 +11,7 @@ const AvatarDiv = ({ avatar_seed }) => {
 	const openSetting = () => {setShowSetting(true)};
 	const randomizeAvatar = () => {
 		// get a new seed to display
-		setDisplaySeed("" + Math.ceil(Math.random() * 10000));
+		setDisplaySeed("" + Math.ceil(Math.random() * 100000));
 	};
 	const applyAndClose = () => {
 		setAvatarSeed(displaySeed); // update applied seed
