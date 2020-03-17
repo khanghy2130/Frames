@@ -1,3 +1,5 @@
+const mongoose = require("mongoose");
+
 // models
 const User = require("./models/user.js");
 const Collection = require("./models/collection.js");
@@ -63,6 +65,7 @@ module.exports = {
 
 				// STEP 2: create a collection
 				Collection.create( {
+					owner_okta_id: foundUser.okta_id, 
 					title: 	`Untitled collection ${foundUser.collections.length + 1}`,
 					visibility: 2,
 					gifs: []
@@ -104,6 +107,43 @@ module.exports = {
 			foundCollection.title = changes_data.title;
 			foundCollection.visibility = changes_data.visibility;
 			foundCollection.save();
+		});
+	},
+
+	// /get_collection/:collection_id   GET route.
+	// client would filter out unaccessible collections but this implements another layer of security 
+	// response contains err_message or collection
+	getCollection: function(userContext, collection_id){
+		return new Promise( function (resolve){
+			Collection.findById(collection_id, function(err, foundCollection){
+				if (err) resolve({err_message: err.message});
+
+				// if visibility is public then no further checking needed
+				if (foundCollection.visibility === 2){
+					resolve({collection: foundCollection});
+				}
+				else {
+					// not a public collection, check logged in
+					if (!userContext) resolve({err_message: 'Not logged in.'});
+
+					// check if user owns this collection (no matter private or friend-only)
+					if (foundCollection.owner_okta_id === userContext.userinfo.sub){
+						resolve({collection: foundCollection});
+					}
+
+					// not owner? find real owner
+					User.find({ okta_id: foundCollection.owner_okta_id },
+					function(err, foundOwner){
+						if (err) resolve({err_message: err.message});
+
+						// check if user is friend with the real owner
+						if (false){
+							// send collection ///////////////////////////////
+						}
+						resolve({err_message: "Not friend with owner."});
+					});
+				}
+			});
 		});
 	}
 

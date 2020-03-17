@@ -4,13 +4,13 @@ const { ExpressOIDC } = require('@okta/oidc-middleware');
 module.exports = (server) => {
 	// session support is required to use ExpressOIDC
 	server.use(session({
-	  secret: 'more than meet the eyes',
+	  secret: process.env.session_secret,
 	  resave: true,
 	  saveUninitialized: false
 	}));
 
 	const oidc = new ExpressOIDC({
-		appBaseUrl:process.env.OIDC_appBaseUrl,
+		appBaseUrl: process.env.OIDC_appBaseUrl,
 		issuer: process.env.OIDC_issuer,
 		client_id: process.env.OIDC_client_id,
 		client_secret: process.env.OIDC_client_secret,

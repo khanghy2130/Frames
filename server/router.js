@@ -125,7 +125,25 @@ module.exports = function(server, app, oidc){
 
 	// NO AUTHENTICATION NEEDED ROUTES
 
-	// Other User's Profile
+	// get data of a collection
+	server.get('/get_collection/:collection_id', (req, res) => {
+		/* if the collection is ...
+			public: no further checking needed
+			friend-only: check authenticated, own collection or is friend with owner
+			private: check authenticated, own collection
+		*/
+		(async function(){
+			const response = await db_methods.getCollection(req.userContext, req.params.collection_id);
+			// retrieve collection. response contains err or collection
+			if (response.err_message){
+				res.send({err: true, message: response.err_message});
+			} else {
+				res.send(response.collection);
+			}
+		})()
+	});
+
+	// Other User's Profile ///////////
 	server.get('/profile/:profileName', (req, res) => {
 		// redirect to myProfile if looking at self //////////
 		app.render(req, res, '/_profile', { profileName: req.params.profileName });
