@@ -55,10 +55,10 @@
 					button {
 						flex-grow: 1;
 						&:nth-child(1){
-							color: #7aff52;
+							color: $green;
 						}
 						&:nth-child(2){
-							color: #ff6363;
+							color: $red;
 						}
 					}
 
@@ -70,7 +70,7 @@
 			@extend .button-hover-class;
 			@extend .font-body;
 			width: 100%;
-			color: #ff6363;
+			color: $red;
 			font-size: 1.5em;
 			padding: 0.5em 0;
 			margin-top: 2em;
@@ -92,7 +92,7 @@
 
 			#collections-container {
 				background-color: $dark-2;
-				margin: 1.5em 2em 2.5em;
+				margin: 1.5em 2em 4em;
 
 				.collection-item {
 					display: flex;
@@ -129,6 +129,87 @@
 					padding: 0.7em;
 					&:hover {
 						color: $main-blue;
+					}
+				}
+
+				#collection-edit-modal {
+					position: fixed;
+					z-index: 8;
+					left: 0;
+					top: 0;
+					width: 100vw;
+					height: 100vh;
+					background-color: rgba(0,0,0,0.5);
+					padding: 20vh 25vw 0;
+
+					& > div {
+						background-color: $dark-2;
+						color: $light-1;
+						padding: 2em;
+
+						#remove-btn-container {
+							width: 100%;
+							display: flex;
+							justify-content: flex-end;
+							margin-bottom: 2em;
+
+							button {
+								@extend .button-hover-class;
+								@extend .font-body;
+								color: $red;
+								font-size: 1em;
+								padding: 0.5em;
+							}
+						}
+
+						#edit-form {
+							display: flex;
+							flex-direction: column;
+							align-items: center;
+							font-size: 2em;
+
+
+							input, select {
+								@extend .font-body;
+								background-color: $dark-1;
+								color: $main-blue;
+								border: none;
+
+								font-size: 0.7em;
+								padding: 0.3em;
+								margin: 0.3em 0 1em;
+							}
+							input {
+								width: 65%;
+							}
+							select {
+								cursor: pointer;
+							}
+
+							& > div {
+								width: 100%;
+								display: flex;
+								justify-content: space-around;
+
+								button {
+									@extend .button-hover-class;
+									@extend .font-body;
+									padding: 0.5em;
+									font-size: 0.7em;
+
+									// save button
+									&:nth-child(1) {
+										color: $green;
+									}
+									// cancel button
+									&:nth-child(2) {
+										color: $red;
+									}
+								}
+							}
+								
+
+						}
 					}
 				}
 			}
@@ -168,8 +249,22 @@
 				#collections-container {
 					margin-left: 0.7em;
 					margin-right: 0.7em;
+
+					#collection-edit-modal {
+						padding: 20vh 5vw 0; // expand modal
+
+						& > div {
+							padding: 1em; // leave more space for contents
+							#edit-form {
+								input {
+									width: 90%; // expand text input
+								}
+							}
+						}
+					}
 				}
 			}
 		}
+
 	}
 }

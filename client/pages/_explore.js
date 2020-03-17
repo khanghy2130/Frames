@@ -58,7 +58,7 @@ const explore = ({ userContext, serverMessage }) => {
 					onKeyDown = {onEnter} 
 					type="text" 
 					placeholder="Search" />
-					<button onClick={doSearch}>
+					<button onClick={doSearch} title="Search">
 						<i className="fas fa-search"/>
 					</button>
 				</div>

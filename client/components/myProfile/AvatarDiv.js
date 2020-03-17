@@ -36,21 +36,21 @@ const AvatarDiv = ({ avatar_seed }) => {
 
 			<div id="avatar-setting-div">
 				{(!showSetting) ? (
-					<button onClick={openSetting}>
+					<button onClick={openSetting} title="Change Avatar">
 						<i className="fas fa-cog" />
 					</button>
 				) : (
 					<Fragment>
 						<div>
-							<button onClick={randomizeAvatar}>
+							<button onClick={randomizeAvatar} title="Randomize">
 								<i className="fas fa-random" />
 							</button>
 						</div>
 						<div>
-							<button onClick={applyAndClose}>
+							<button onClick={applyAndClose} title="Apply">
 								<i className="fas fa-check" />
 							</button>
-							<button onClick={cancelAndClose}>
+							<button onClick={cancelAndClose} title="Cancel">
 								<i className="fas fa-times" />
 							</button>
 						</div>

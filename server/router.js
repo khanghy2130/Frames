@@ -61,6 +61,31 @@ module.exports = function(server, app, oidc){
 		db_methods.setAvatarSeed(req.userContext.userinfo, req.body.new_avatar_seed);
 	});
 
+	server.post('/myProfile/create_collection', oidc.ensureAuthenticated(), (req, res) => {
+		(async function(){
+			// create new collection for user
+			const newCollection = await db_methods.createNewCollection(req.userContext.userinfo)
+
+			// send to client the newly created collection
+			// err property as status of the response
+			if (newCollection){
+				res.send({err: false, newCollection});
+			} else {
+				res.send({err: true});
+			}
+		})()
+	});
+
+	server.post('/myProfile/remove_collection', oidc.ensureAuthenticated(), (req, res) => {
+		db_methods.removeCollection(req.userContext.userinfo, req.body.collection_id);
+	});
+
+	server.post('/myProfile/update_collection', oidc.ensureAuthenticated(), (req, res) => {
+		db_methods.updateCollection(req.body.collection_id, req.body.changes_data);
+	});
+
+
+
 
 	////// TEST ROUTES
 	// unauthenticated myProfile route for quick styling test with dummy data
@@ -74,13 +99,13 @@ module.exports = function(server, app, oidc){
 					{
 						_id: "1",
 						title: "Untitled Collection 1",
-						visibility: 2,
+						visibility: 0,
 						gifs: []
 					},
 					{
 						_id: "2",
 						title: "Untitled Collection 2",
-						visibility: 2,
+						visibility: 1,
 						gifs: []
 					},
 					{

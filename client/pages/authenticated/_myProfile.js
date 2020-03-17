@@ -1,53 +1,22 @@
 // Page of the user's profile
 
 import Link from 'next/link';
+import { useState } from 'react';
 
 import '../../sass/pages/myProfile.scss';
 import Layout from '../../components/Layout.js';
+import Alert from '../../components/Alert.js';
 import AvatarDiv from '../../components/myProfile/AvatarDiv.js';
-
-
-const CollectionsContainer = ({collectionsList}) => {
-	// when clicked on the binded collection
-	const openCollection = function() {
-		console.log(this.title);
-	};
-
-	// when clicked on the edit button
-	const editCollection = function() {
-		console.log("Editing " + this.title);
-	};
-
-	const addNewCollection = function(){
-		console.log("Adding collection number " + (collectionsList.length+1));
-	};
-
-	return (
-		<div id="collections-container">
-			{ collectionsList.map(collection => (
-				<div key={ collection._id } className="collection-item">
-					<button className="collection-title"
-					onClick={ openCollection.bind(collection) }>
-						{ collection.title }
-					</button>
-					<button className="collection-edit"
-					onClick={ editCollection.bind(collection) }>
-						<i className="fas fa-cog"/>
-					</button>
-				</div>
-			)) }
-
-			<button id="create-collection-button"
-			onClick={ addNewCollection }>
-				<i className="fas fa-plus-circle"/>&nbsp;&nbsp;Create new collection
-			</button>
-		</div>
-	);
-};
+import CollectionsContainer from '../../components/myProfile/CollectionsContainer.js';
 
 
 const myProfile = ({ userData }) => {
 	if (userData) {
+		const [alertMessage, setAlertMessage] = useState(null);
+
+		// collections data
+		const [collections, setCollections] = useState(userData.collections);
+
 		return (
 			<Layout 
 			mainCssId="myProfile-main"
@@ -73,9 +42,13 @@ const myProfile = ({ userData }) => {
 					<section id="collections-section">
 						<h1>My Collections</h1>
 						<CollectionsContainer 
-						collectionsList={userData.collections} />
+						setAlertMessage={setAlertMessage}
+						collections={collections}
+						setCollections={setCollections} />
 					</section>
 				</section>
+
+				<Alert alertMessage={alertMessage} setAlertMessage={setAlertMessage} />
 			</Layout>
 		);
 	}
