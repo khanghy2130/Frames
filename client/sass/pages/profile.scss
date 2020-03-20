@@ -1,0 +1,106 @@
+@import '../variables';
+
+#profile-main {
+	display: flex;
+	flex-direction: row;
+
+	#profile-info-section {
+		background-color: $dark-2;
+		width: 15em;
+		padding-top: 10em;
+		text-align: center;
+
+		// user name
+		& > h1 {
+			@extend .font-header;
+			color: $light-1;
+			font-size: 1.2em;
+		}
+
+		#avatar-div {
+			width: 100%;	
+			img {
+				width: 70%;
+				margin: 0.7em 0;
+			}
+		}
+
+		#add-friend-button {
+			@extend .font-body;
+			width: 100%;
+			font-size: 1.1em;
+			padding: 0.5em 0;
+			margin-top: 2em;
+			color: $light-1; // disabled
+
+			&.enabled {
+				@extend .button-hover-class;
+				color: $main-blue;
+			}
+		}
+	}
+
+	#profile-contents-section {
+		flex-grow: 1; // fill space
+		padding-top: 10em;
+		color: $dark-2;
+		text-align: center;
+
+		#collections-section {
+			// header
+			& > h1 {
+				@extend .font-header;
+				font-size: 2em;
+			}
+
+			#collections-container {
+				background-color: $dark-2;
+				margin: 1.5em 3.5em 4em;
+
+				.collection-item {
+					display: flex;
+
+					.collection-title {
+						@extend .button-hover-class;
+						@extend .font-body;
+						color: $light-1;
+						font-size: 1.2em;
+
+						text-align: left;
+						flex-grow: 1;
+						padding: 0.7em 1em;
+						&:hover {
+							color: $main-blue;
+						}
+					}
+				}
+			}
+		}
+
+	}
+}
+
+@media only screen and (max-width: $tablet-bp){
+	#profile-main {
+		flex-direction: column;
+
+		#profile-info-section {
+			width: 100%; // full width
+
+			h1 {
+				font-size: 7vw;
+			}
+		}
+
+		#profile-contents-section {
+			padding-top: 3.5em; // no longer need to leave space for navbar
+
+			#collections-section {
+				#collections-container {
+					margin-left: 0.7em;
+					margin-right: 0.7em;
+				}
+			}
+		}
+	}
+}

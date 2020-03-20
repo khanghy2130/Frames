@@ -101,7 +101,7 @@ const CollectionsContainer = ({ setAlertMessage, collections, setCollections }) 
 
 	// when clicked on the binded collection
 	const openCollection = function() {
-
+		console.log(this.title);
 	};
 
 	// when clicked on the edit button

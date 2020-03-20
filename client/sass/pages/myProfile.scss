@@ -83,21 +83,27 @@
 		color: $dark-2;
 		text-align: center;
 
-		#collections-section {
-			// header
-			& > h1 {
-				@extend .font-header;
-				font-size: 2em;
+		.content-header {
+			@extend .font-header;
+			font-size: 1.8em;
+		}
+
+		#friends-section {
+			#friends-container {
+
 			}
+		}
+
+		#collections-section {
 
 			#collections-container {
 				background-color: $dark-2;
-				margin: 1.5em 2em 4em;
+				margin: 1.5em 3.5em 4em;
 
 				.collection-item {
 					display: flex;
 					
-					// both buttons
+					// both buttons (the displaying collection item)
 					button {
 						@extend .button-hover-class;
 						@extend .font-body;

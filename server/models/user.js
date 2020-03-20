@@ -16,17 +16,18 @@ const UserSchema = new mongoose.Schema({
 	friends: [
 		// item: friend object
 		{
+			/*
+				0: not friends (this value wouldn't be stored)
+				1: this user sent the request
+				2: this user received the request
+				3: friends
+
+			*/
+			friendship_status: Number,
 			user: {
 				type: mongoose.Schema.Types.ObjectId,
-				ref: 'User',
-			},
-			status: Number,
-			enums: [
-				0,    //'add friend',
-				1,    //'requested',
-				2,    //'pending',
-				3,    //'friends'
-			]
+				ref: 'User'
+			}
 		}
 	]
 });

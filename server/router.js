@@ -61,6 +61,8 @@ module.exports = function(server, app, oidc){
 		db_methods.setAvatarSeed(req.userContext.userinfo, req.body.new_avatar_seed);
 	});
 
+
+	// Collections manipulation routes
 	server.post('/myProfile/create_collection', oidc.ensureAuthenticated(), (req, res) => {
 		(async function(){
 			// create new collection for user
@@ -75,17 +77,21 @@ module.exports = function(server, app, oidc){
 			}
 		})()
 	});
-
 	server.post('/myProfile/remove_collection', oidc.ensureAuthenticated(), (req, res) => {
 		db_methods.removeCollection(req.userContext.userinfo, req.body.collection_id);
 	});
-
 	server.post('/myProfile/update_collection', oidc.ensureAuthenticated(), (req, res) => {
 		db_methods.updateCollection(req.body.collection_id, req.body.changes_data);
 	});
 
+	// Friendship manipulation routes
 
-
+	server.post('/add_friend', oidc.ensureAuthenticated(), (req, res) => {
+		db_methods.addFriend(req.body.sender_okta_id, req.body.receiver_okta_id);
+	});
+	server.post('/remove_friend', oidc.ensureAuthenticated(), (req, res) => {
+		db_methods.removeFriend(req.body.okta_id_1, req.body.okta_id_2);
+	});
 
 	////// TEST ROUTES
 	// unauthenticated myProfile route for quick styling test with dummy data
@@ -100,7 +106,7 @@ module.exports = function(server, app, oidc){
 						_id: "1",
 						title: "Untitled Collection 1",
 						visibility: 0,
-						gifs: []
+						gifs: [{name: 'gif no 1'},{name: 'gif no 2'}]
 					},
 					{
 						_id: "2",
@@ -116,7 +122,9 @@ module.exports = function(server, app, oidc){
 					}
 
 				],
-				friends: []
+				friends: [
+					
+				]
 			}
 		});
 	});
@@ -125,7 +133,7 @@ module.exports = function(server, app, oidc){
 
 	// NO AUTHENTICATION NEEDED ROUTES
 
-	// get data of a collection
+	// NOT A RENDER ROUTE; get data of a collection
 	server.get('/get_collection/:collection_id', (req, res) => {
 		/* if the collection is ...
 			public: no further checking needed
@@ -143,13 +151,62 @@ module.exports = function(server, app, oidc){
 		})()
 	});
 
-	// Other User's Profile ///////////
-	server.get('/profile/:profileName', (req, res) => {
-		// redirect to myProfile if looking at self //////////
-		app.render(req, res, '/_profile', { profileName: req.params.profileName });
+	// other user's profile route
+	server.get('/profile/:okta_id', (req, res) => {
+		// check if authenticated and match current user then redirect to /myProfile
+		if (req.userContext && (req.params.okta_id === req.userContext.userinfo.sub)){
+			return res.redirect("/myProfile");
+		}
+		/*
+		app.render(req, res, '/_profile', {
+			userContext : req.userContext,
+			userData : {
+				okta_id: "oslovao252vrl3",
+				display_name: "Dummy Buga", 
+				avatar_seed: "5405",
+				collections: [
+					{
+						_id: 24,
+						title: "my Kolleczion",
+						visibility: "2"
+					},{
+						_id: 4,
+						title: "Koecon",
+						visibility: "1"
+					},{
+						_id: 54,
+						title: "my Bamboo",
+						visibility: "1"
+					},
+				],
+				friendshipStatus: 4,
+			}
+		});*/
+		
+		(async function(){
+			// get that user info from database
+			// userData will have property friendshipStatus,
+			//   which is from the perspective of current user
+			const response = await db_methods.getOtherUserData(req.userContext, req.params.okta_id);
+
+			// successful fetch
+			if (response){
+				app.render(req, res, '/_profile', {
+					userContext : req.userContext,
+					userData : response.userData,
+					friendshipStatus: response.friendshipStatus
+				});
+			}
+			// unsuccessful fetch (user doesn't exist, etc)
+			else {
+				app.render(req, res, '/_explore', {
+					userContext : req.userContext,
+					serverMessage: "Error while fetching user data."
+				});
+			}
+		})()
 	});
 
-	// Landing Page
 	server.get('/landing', (req, res) => {
 		app.render(req, res, '/_landing')
 	});

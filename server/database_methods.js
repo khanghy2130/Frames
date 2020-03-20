@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 // models
 const User = require("./models/user.js");
 const Collection = require("./models/collection.js");
+const Gif = require("./models/gif.js");
 
 
 module.exports = {
@@ -14,34 +15,34 @@ module.exports = {
 		return new Promise( async function(resolve) {
 			const userExists = await User.exists({okta_id: userinfo.sub});
 
-			if (userExists) resolve(null);
-			else {
+			if (userExists) return resolve(null);
 
-				User.create( {
-					okta_id: userinfo.sub,
-					display_name: userinfo.name,
-					avatar_seed: "138",
-					collections: [],
-					friends: []
-				}, function (err, createdUser) {
-					if (err) resolve("Error while creating user.");
-					else resolve("Your profile has been created!");
-				});
-
-			}
+			User.create( {
+				okta_id: userinfo.sub,
+				display_name: userinfo.name,
+				avatar_seed: "138",
+				collections: [],
+				friends: []
+			}, function (err, createdUser) {
+				if (err) return resolve("Error while creating user.");
+				else return resolve("Your profile has been created!");
+			});
 		})
 	},
 
-	// /myProfile route
+	// /myProfile GET route 
 	// get data of the currently logged in user
 	getCurrentUserData: function(userinfo){
 		return new Promise( function (resolve){
-			// get userData with populated collections and friends arrays
 			User.findOne({okta_id: userinfo.sub})
 			.populate("collections")
+			.populate({
+				path: 'friends.user',
+				model: 'User'
+			})
 			.exec(function(err, foundUser){
-				if (err) resolve(null);
-				else resolve(foundUser);
+				if (err) return resolve(null);
+				else return resolve(foundUser);
 			});
 		});
 	},
@@ -56,12 +57,13 @@ module.exports = {
 		});
 	},
 
+
 	// /myProfile/create_collection POST route
 	createNewCollection: function(userinfo){
 		return new Promise( function (resolve){
 			// STEP 1: find the user
 			User.findOne({okta_id: userinfo.sub}, function(err, foundUser) {
-				if (err) resolve(null);
+				if (err) return resolve(null);
 
 				// STEP 2: create a collection
 				Collection.create( {
@@ -70,12 +72,12 @@ module.exports = {
 					visibility: 2,
 					gifs: []
 				}, function (err, createdCollection) {
-					if (err) resolve(null);
+					if (err) return resolve(null);
 					
 					// STEP 3: give the user and save
 					foundUser.collections.push(createdCollection);
 					foundUser.save();
-					resolve(createdCollection); // done, now return to client
+					return resolve(createdCollection); // done, now return to client
 				});
 			});	
 		});
@@ -110,42 +112,139 @@ module.exports = {
 		});
 	},
 
-	// /get_collection/:collection_id   GET route.
-	// client would filter out unaccessible collections but this implements another layer of security 
+
+	// /get_collection/:collection_id   GET route (protected)
 	// response contains err_message or collection
 	getCollection: function(userContext, collection_id){
 		return new Promise( function (resolve){
-			Collection.findById(collection_id, function(err, foundCollection){
-				if (err) resolve({err_message: err.message});
+			Collection.findById(collection_id)
+			.populate("gifs")
+			.exec(function(err1, foundCollection){
+				if (err1) return resolve({err_message: err1.message});
 
 				// if visibility is public then no further checking needed
 				if (foundCollection.visibility === 2){
-					resolve({collection: foundCollection});
+					return resolve({collection: foundCollection});
 				}
 				else {
 					// not a public collection, check logged in
-					if (!userContext) resolve({err_message: 'Not logged in.'});
+					if (!userContext) return resolve({err_message: 'Not logged in.'});
 
 					// check if user owns this collection (no matter private or friend-only)
 					if (foundCollection.owner_okta_id === userContext.userinfo.sub){
-						resolve({collection: foundCollection});
+						return resolve({collection: foundCollection});
 					}
 
 					// not owner? find real owner
-					User.find({ okta_id: foundCollection.owner_okta_id },
-					function(err, foundOwner){
-						if (err) resolve({err_message: err.message});
+					User.findOne({ okta_id: foundCollection.owner_okta_id },
+					function(err2, foundOwner){
+						if (err2) return resolve({err_message: err2.message});
 
 						// check if user is friend with the real owner
 						if (false){
-							// send collection ///////////////////////////////
+							// send collection with gifs! //////////////////////////
 						}
-						resolve({err_message: "Not friend with owner."});
+						return resolve({err_message: "Not friend with owner."});
 					});
 				}
 			});
 		});
-	}
+	},
 
+
+	// /profile/:user_id GET route
+	// the response also includes friendshipStatus and filters out unaccessible collections
+	getOtherUserData: function(userContext, okta_id){
+		return new Promise( function (resolve){
+			// STEP 1: get other user data
+			User.findOne({okta_id: okta_id})
+			.populate("collections")
+			.exec(function(err1, foundUser){
+				if (err1) return resolve(null);
+				if (foundUser === null) return resolve(null);
+
+				// unauthenticated?
+				if (!userContext){
+					return resolve({userData: foundUser, friendshipStatus : 0});
+				} else {
+					// STEP 2: get CURRENT user data
+					User.findOne({okta_id: userContext.userinfo.sub},
+					function(err2, currentUser){
+						if (err2) return resolve(null);
+						if (currentUser === null) return resolve(null);
+
+						// STEP 3: get friendship status
+						let friendshipStatus = null;
+						for (let i=0; i < currentUser.friends.length; i++){
+							const friendObj = currentUser.friends[i];
+							// this friend object is for this found user?
+							if (foundUser._id.equals(friendObj.user)){
+								friendshipStatus = friendObj.friendship_status;
+								break;
+							}
+						}
+
+						// STEP 4: filter foundUser.collections
+						///// later/////////////////////
+						
+						return resolve({userData: foundUser, friendshipStatus});
+					});
+				}
+			});
+		});
+	},
+
+	// /add_friend POST route
+	addFriend: function(sender_okta_id, receiver_okta_id){
+		// to make sure to not add the same friend object, run removeFriend() first
+		// passing addFriendCallback
+		this.removeFriend(
+			sender_okta_id, 
+			receiver_okta_id, 
+			function(currentUser, otherUser){
+				// adding friend object to current user
+				currentUser.friends.push({
+					friendship_status: 1, // request sent
+					user: otherUser
+				});
+				currentUser.save();
+
+				// adding friend object to current other user
+				otherUser.friends.push({
+					friendship_status: 2, // request received
+					user: currentUser
+				});
+				otherUser.save();
+			}
+		);
+	},
+
+	// /remove_friend POST route
+	// from either user at any status except no-friends status
+	// a helper function for addFriend()
+	removeFriend(okta_id_1, okta_id_2, addFriendCallback){
+		User.findOne({okta_id: okta_id_1}, function(err1, user1){
+			if (err1) return console.log(err1);
+			User.findOne({okta_id: okta_id_2}, function(err2, user2){
+				if (err2) return console.log(err2);
+				
+				// find and remove friend object of each other
+				user1.friends = user1.friends.filter(friendObj => {
+					// won't filter out other friend objects
+					// 'user' property is unpopulated, so it's an ID
+					return !friendObj.user.equals(user2._id);
+				});
+				user2.friends = user2.friends.filter(friendObj => {
+					return !friendObj.user.equals(user1._id);
+				});
+
+				
+				// addFriend()
+				if (addFriendCallback){
+					addFriendCallback(user1, user2); // sender and receiver respectively
+				}
+			});
+		});
+	}
 
 };
