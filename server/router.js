@@ -123,6 +123,46 @@ module.exports = function(server, app, oidc){
 
 				],
 				friends: [
+					{
+						friendship_status: 3,
+						user: {
+							okta_id: "5e6ds",
+							display_name: "Nice_Friend",
+							avatar_seed: "508",
+						}
+					},
+					{
+						friendship_status: 3,
+						user: {
+							okta_id: "5e6ds42",
+							display_name: "Ok_Friend",
+							avatar_seed: "35264",
+						}
+					},
+					{
+						friendship_status: 2,
+						user: {
+							okta_id: "5e52ds",
+							display_name: "Stalker",
+							avatar_seed: "6064",
+						}
+					},
+					{
+						friendship_status: 1,
+						user: {
+							okta_id: "5gf6ds",
+							display_name: "Famous_Person",
+							avatar_seed: "48200",
+						}
+					},
+					{
+						friendship_status: 2,
+						user: {
+							okta_id: "bvds",
+							display_name: "Sneaky_Stalkie",
+							avatar_seed: "9964",
+						}
+					}
 					
 				]
 			}

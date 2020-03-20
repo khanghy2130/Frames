@@ -90,7 +90,79 @@
 
 		#friends-section {
 			#friends-container {
+				background-color: $dark-2;
+				display: flex;
+				flex-direction: column;
+				text-align: left;
+				margin: 1.5em 3.5em 4em;
 
+				.sub-header {
+					text-align: center;
+					background-color: $dark-1;
+					color: $light-1;
+					font-size: 1.2em;
+					padding: 0.5em 0;
+				}
+
+				.empty-placeholder {
+					color: $red;
+					font-size: 1.2em;
+					padding: 0.5em 1em;
+				}
+
+				// contains avatar and a div
+				.friend-item {
+					display: flex;
+					flex-direction: row;
+					padding: 0.7em 0;
+
+					& > img {
+						width: 5em;
+						margin: 0 1em;
+					}
+
+					& > div {
+						display: flex;
+						flex-direction: column;
+						flex-grow: 1;
+
+						// user name
+						& > a {
+							cursor: pointer;
+							word-break: break-all; // prevents overflow
+							color: $main-blue;
+							font-size: 1.2em;
+							padding: 0.5em 0.5em;
+							
+							&:hover {
+								text-decoration: line-through;
+							}
+						}
+						// buttons div
+						& > div {
+							display: flex;
+							align-items: flex-end;
+							justify-content: flex-end;
+							flex-grow: 1;
+
+							button {
+								@extend .button-hover-class;
+								@extend .font-body;
+								font-size: 1.2em;
+								padding: 0.5em;
+								margin-right: 1em;
+
+								&.green-btn {
+									color: $green;
+								}
+								&.red-btn {
+									color: $red;
+								}
+							}
+						}
+					}
+					
+				}
 			}
 		}
 
@@ -109,10 +181,6 @@
 						@extend .font-body;
 						color: $light-1;
 						font-size: 1.2em;
-
-						&:hover {
-							color: $main-blue;
-						}
 					}
 
 					.collection-title {
@@ -213,7 +281,6 @@
 									}
 								}
 							}
-								
 
 						}
 					}
@@ -250,6 +317,27 @@
 
 		#profile-contents-section {
 			padding-top: 3.5em; // no longer need to leave space for navbar
+
+			#friends-section {
+				#friends-container {
+					margin: 1.5em 0.7em 4em;
+
+					.friend-item {
+						& > img {
+							// smaller image
+							width: 4em;
+							margin: 0 0.5em;
+						}
+						& > div {
+							& > div {
+								button {
+									font-size: 0.9em; // smaller buttons
+								}
+							}
+						}
+					}
+				}
+			}
 
 			#collections-section {
 				#collections-container {
