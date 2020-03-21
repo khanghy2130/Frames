@@ -192,8 +192,13 @@ module.exports = {
 
 				// unauthenticated?
 				if (!userContext){
+					// filter out all non public collections
+					foundUser.collections = foundUser.collections.filter(
+						c => c.visibility === 2
+					);
 					return resolve({userData: foundUser, friendshipStatus : 0});
-				} else {
+				} 
+				else {
 					// STEP 2: get CURRENT user data
 					User.findOne({okta_id: userContext.userinfo.sub},
 					function(err2, currentUser){
@@ -211,8 +216,17 @@ module.exports = {
 							}
 						}
 
-						// STEP 4: filter out inaccessible collections >>>foundUser.collections
-						///// later/////////////////////
+						// STEP 4: filter out inaccessible collections
+						foundUser.collections = foundUser.collections.filter(c => {
+							// if is public
+							if (c.visibility === 2) return true;
+
+							// if is private
+							if (c.visibility === 0) return false;
+
+							// if is friends-only
+							return friendshipStatus === 3; // friend added?
+						});
 						
 						return resolve({userData: foundUser, friendshipStatus});
 					});

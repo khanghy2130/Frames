@@ -37,6 +37,9 @@
 				@extend .button-hover-class;
 				color: $main-blue;
 			}
+			&.green-text {
+				color: $green;
+			}
 		}
 	}
 

@@ -40,9 +40,10 @@ const FriendButton = ({ userContext, userData, setAlertMessage, fStatus, setFSta
 		// are friends
 		else if (fStatus === 3){
 			return (
-				<button id="add-friend-button" 
+				<button id="add-friend-button"
+				className="green-text"
 				disabled>
-					Friend added
+					<i className="fas fa-check" />&nbsp;Friend added
 				</button>
 			);
 		}
@@ -52,7 +53,7 @@ const FriendButton = ({ userContext, userData, setAlertMessage, fStatus, setFSta
 				<button id="add-friend-button" 
 				onClick={addFriendHandler}
 				className="enabled">
-					Add friend
+					<i className="fas fa-plus" />&nbsp;Add friend
 				</button>
 			);
 		}
@@ -63,7 +64,7 @@ const FriendButton = ({ userContext, userData, setAlertMessage, fStatus, setFSta
 			<button id="add-friend-button" 
 			onClick={unauthenticatedHandler}
 			className="enabled">
-				Add Friend
+				<i className="fas fa-plus" />&nbsp;Add Friend
 			</button>
 		);
 	}		
