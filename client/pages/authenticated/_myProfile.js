@@ -42,6 +42,7 @@ const myProfile = ({ userData }) => {
 				<section id="friends-section">
 					<h1 className="content-header">My Friends</h1>
 					<FriendsContainer
+					userData={userData}
 					friends={friends}
 					setFriends={setFriends} />
 				</section>

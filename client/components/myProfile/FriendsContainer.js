@@ -1,13 +1,44 @@
 import axios from "axios";
 import Link from "next/link";
 
-const FriendsContainer = ({ friends, setFriends }) => {
+const FriendsContainer = ({ userData, friends, setFriends }) => {
 	// actions, binded with friendObj ////// setFriends() to change state
-	const addFriend = function() {
-		console.log("Add: " + this.user.display_name);
+	const acceptFriend = function() {
+		// update display
+		const newFriendsArray = friends.map(friendObj => {
+			// change friendship_status on target
+			if (friendObj === this){
+				friendObj.friendship_status = 3; // friend added!
+				return friendObj;
+			}
+			else return friendObj; // not target friendOBj
+		});
+		setFriends(newFriendsArray);
+		
+		// sending request to accept friend
+		axios.post('/accept_friend', {
+			sender_okta_id: userData.okta_id,
+			other_user_okta_id: this.user.okta_id
+		}).catch(err => {console.log(err)});
+		
 	};
 	const removeFriend = function() {
-		console.log("Remove: " + this.user.display_name);
+		// update display
+		const newFriendsArray = friends.map(friendObj => {
+			// change friendship_status on target
+			if (friendObj === this){
+				friendObj.friendship_status = 0; // friend removed!
+				return friendObj;
+			}
+			else return friendObj; // not target friendOBj
+		});
+		setFriends(newFriendsArray);
+		
+		// sending request to remove friend
+		axios.post('/remove_friend', {
+			sender_okta_id: userData.okta_id,
+			other_user_okta_id: this.user.okta_id
+		}).catch(err => {console.log(err)});
 	};
 
 
@@ -41,7 +72,7 @@ const FriendsContainer = ({ friends, setFriends }) => {
 							</Link>
 							<div>
 								<button className="green-btn"
-								onClick={addFriend.bind(friendObj)}>
+								onClick={acceptFriend.bind(friendObj)}>
 									Accept
 								</button>
 								<button className="red-btn"

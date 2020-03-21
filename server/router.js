@@ -84,13 +84,37 @@ module.exports = function(server, app, oidc){
 		db_methods.updateCollection(req.body.collection_id, req.body.changes_data);
 	});
 
+	
 	// Friendship manipulation routes
+	//   make sure the authenticated user is the sender
+	const checkSender = (senderId, currentUserId) => senderId === currentUserId;
 
 	server.post('/add_friend', oidc.ensureAuthenticated(), (req, res) => {
-		db_methods.addFriend(req.body.sender_okta_id, req.body.receiver_okta_id);
+		if (!checkSender(req.userContext.userinfo.sub, req.body.sender_okta_id)){
+			return console.log("Request sender is not the user.");
+		}
+		db_methods.addFriend(
+			req.body.sender_okta_id, 
+			req.body.other_user_okta_id
+		);
 	});
 	server.post('/remove_friend', oidc.ensureAuthenticated(), (req, res) => {
-		db_methods.removeFriend(req.body.okta_id_1, req.body.okta_id_2);
+		if (!checkSender(req.userContext.userinfo.sub, req.body.sender_okta_id)){
+			return console.log("Request sender is not the user.");
+		}
+		db_methods.removeFriend(
+			req.body.sender_okta_id, 
+			req.body.other_user_okta_id
+		);
+	});
+	server.post('/accept_friend', oidc.ensureAuthenticated(), (req, res) => {
+		if (!checkSender(req.userContext.userinfo.sub, req.body.sender_okta_id)){
+			return console.log("Request sender is not the user.");
+		}
+		db_methods.acceptFriend(
+			req.body.sender_okta_id, 
+			req.body.other_user_okta_id
+		);
 	});
 
 	////// TEST ROUTES
@@ -173,7 +197,7 @@ module.exports = function(server, app, oidc){
 
 	// NO AUTHENTICATION NEEDED ROUTES
 
-	// NOT A RENDER ROUTE; get data of a collection
+	// API GET ROUTE; get data of a collection
 	server.get('/get_collection/:collection_id', (req, res) => {
 		/* if the collection is ...
 			public: no further checking needed
@@ -182,9 +206,9 @@ module.exports = function(server, app, oidc){
 		*/
 		(async function(){
 			const response = await db_methods.getCollection(req.userContext, req.params.collection_id);
-			// retrieve collection. response contains err or collection
+			
 			if (response.err_message){
-				res.send({err: true, message: response.err_message});
+				res.send({err_message: response.err_message});
 			} else {
 				res.send(response.collection);
 			}
@@ -197,31 +221,6 @@ module.exports = function(server, app, oidc){
 		if (req.userContext && (req.params.okta_id === req.userContext.userinfo.sub)){
 			return res.redirect("/myProfile");
 		}
-		/*
-		app.render(req, res, '/_profile', {
-			userContext : req.userContext,
-			userData : {
-				okta_id: "oslovao252vrl3",
-				display_name: "Dummy Buga", 
-				avatar_seed: "5405",
-				collections: [
-					{
-						_id: 24,
-						title: "my Kolleczion",
-						visibility: "2"
-					},{
-						_id: 4,
-						title: "Koecon",
-						visibility: "1"
-					},{
-						_id: 54,
-						title: "my Bamboo",
-						visibility: "1"
-					},
-				],
-				friendshipStatus: 4,
-			}
-		});*/
 		
 		(async function(){
 			// get that user info from database

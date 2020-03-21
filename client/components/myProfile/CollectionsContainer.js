@@ -101,6 +101,7 @@ const CollectionsContainer = ({ setAlertMessage, collections, setCollections }) 
 
 	// when clicked on the binded collection
 	const openCollection = function() {
+		////////////////////// set alert if err_message is defined
 		console.log(this.title);
 	};
 

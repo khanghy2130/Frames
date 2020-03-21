@@ -121,31 +121,58 @@ module.exports = {
 			.populate("gifs")
 			.exec(function(err1, foundCollection){
 				if (err1) return resolve({err_message: err1.message});
+				if (foundCollection === null) return resolve({
+					err_message: "Collection not found."
+				});
 
 				// if visibility is public then no further checking needed
 				if (foundCollection.visibility === 2){
-					return resolve({collection: foundCollection});
+					return resolve({collection: foundCollection}); // public!
 				}
 				else {
-					// not a public collection, check logged in
-					if (!userContext) return resolve({err_message: 'Not logged in.'});
+					// not a public collection, check if logged in
+					if (!userContext) return resolve({
+						err_message: 'Not logged in.'
+					});
 
 					// check if user owns this collection (no matter private or friend-only)
 					if (foundCollection.owner_okta_id === userContext.userinfo.sub){
-						return resolve({collection: foundCollection});
+						return resolve({collection: foundCollection}); // owner!
 					}
 
-					// not owner? find real owner
-					User.findOne({ okta_id: foundCollection.owner_okta_id },
-					function(err2, foundOwner){
-						if (err2) return resolve({err_message: err2.message});
+					// user is not the owner of this collection!
+					// is private collection?
+					if (foundCollection.visibility === 0){
+						return resolve({
+							err_message:"Not owner of this private collection."
+						});
+					}
+					// is friend-only collection
+					else {
+						// find the owner with the query that makes sure ...
+						// ... the owner is friend with the current user
+						User.findOne({ okta_id: foundCollection.owner_okta_id })
+						.populate("friends.user")
+						.exec(function(err2, foundOwner){
+							if (err2) return resolve({err_message: err2.message});
+							if (foundOwner === null) return resolve({
+								err_message: "Owner not found."
+							});
 
-						// check if user is friend with the real owner
-						if (false){
-							// send collection with gifs! //////////////////////////
-						}
-						return resolve({err_message: "Not friend with owner."});
-					});
+							// check if current user is friend with owner
+							for (let i=0; i < foundOwner.friends.length; i++){
+								const friendObj = foundOwner.friends[i];
+								if (friendObj.user.okta_id === userContext.userinfo.sub
+									&& friendObj.friendship_status === 3){
+									return resolve({collection: foundCollection}); // friended!
+								}
+							}
+							
+							return resolve({
+								err_message: "Not friend with the collection owner."
+							});
+						});
+					}
 				}
 			});
 		});
@@ -184,7 +211,7 @@ module.exports = {
 							}
 						}
 
-						// STEP 4: filter foundUser.collections
+						// STEP 4: filter out inaccessible collections >>>foundUser.collections
 						///// later/////////////////////
 						
 						return resolve({userData: foundUser, friendshipStatus});
@@ -195,12 +222,12 @@ module.exports = {
 	},
 
 	// /add_friend POST route
-	addFriend: function(sender_okta_id, receiver_okta_id){
+	addFriend: function(sender_okta_id, other_user_okta_id){
 		// to make sure to not add the same friend object, run removeFriend() first
 		// passing addFriendCallback
 		this.removeFriend(
 			sender_okta_id, 
-			receiver_okta_id, 
+			other_user_okta_id, 
 			function(currentUser, otherUser){
 				// adding friend object to current user
 				currentUser.friends.push({
@@ -229,20 +256,59 @@ module.exports = {
 				if (err2) return console.log(err2);
 				
 				// find and remove friend object of each other
-				user1.friends = user1.friends.filter(friendObj => {
-					// won't filter out other friend objects
-					// 'user' property is unpopulated, so it's an ID
-					return !friendObj.user.equals(user2._id);
-				});
-				user2.friends = user2.friends.filter(friendObj => {
-					return !friendObj.user.equals(user1._id);
-				});
-
-				
-				// addFriend()
-				if (addFriendCallback){
-					addFriendCallback(user1, user2); // sender and receiver respectively
+				for (let i=0; i < user1.friends.length; i++){
+					// found target friendObj?
+					if (user1.friends[i].user.equals(user2._id)){
+						user1.friends.splice(i, 1); // remove friendObj
+						break;
+					}
 				}
+				for (let i=0; i < user2.friends.length; i++){
+					// found target friendObj?
+					if (user2.friends[i].user.equals(user1._id)){
+						user2.friends.splice(i, 1); // remove friendObj
+						break;
+					}
+				}
+
+				// continue to addFriend(), which will do the saving
+				if (addFriendCallback){
+					addFriendCallback(user1, user2); // sender and other user respectively
+				}
+				// if not, save right here
+				else {
+					user1.save();
+					user2.save();
+				}
+			});
+		});
+	},
+
+	// /accept_friend POST route
+	acceptFriend: function(okta_id_1, okta_id_2){
+		User.findOne({okta_id: okta_id_1}, function(err1, user1){
+			if (err1) return console.log(err1);
+			User.findOne({okta_id: okta_id_2}, function(err2, user2){
+				if (err2) return console.log(err2);
+
+				// find friendObj of each other to update friendship_status
+				for (let i=0; i < user1.friends.length; i++){
+					// found target friendObj?
+					if (user1.friends[i].user.equals(user2._id)){
+						user1.friends[i].friendship_status = 3;
+						break;
+					}
+				}
+				for (let i=0; i < user2.friends.length; i++){
+					// found target friendObj?
+					if (user2.friends[i].user.equals(user1._id)){
+						user2.friends[i].friendship_status = 3;
+						break;
+					}
+				}
+
+				user1.save();
+				user2.save();
 			});
 		});
 	}

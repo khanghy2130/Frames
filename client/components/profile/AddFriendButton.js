@@ -12,7 +12,7 @@ const FriendButton = ({ userContext, userData, setAlertMessage, fStatus, setFSta
 		// request to add this user as friend
 		axios.post('/add_friend', {
 			sender_okta_id: userContext.userinfo.sub,
-			receiver_okta_id: userData.okta_id
+			other_user_okta_id: userData.okta_id
 		})
 		.catch(err => {console.log(err)});
 	};
