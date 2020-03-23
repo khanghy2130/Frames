@@ -6,6 +6,8 @@ import withApollo from '../../lib/withApollo.js';
 import ReactImageFallback from 'react-image-fallback';
 import { Fragment } from 'react';
 
+import GifModal from '../GifModal.js';
+
 import searchSuggestions from '../../images/search_suggestions.png';
 import spinnerImage from '../../images/spinner.gif'; // showed while loading results
 
@@ -16,7 +18,17 @@ const suggestionsImage = () => (
 	</div>
 );
  
-const Searches = ({ search_query, current_page, setCurrentPage, setAlertMessage }) => {
+const Searches = ({ 
+	search_query, 
+	current_page, 
+	setCurrentPage, 
+	setAlertMessage,
+	gifObj,
+	setGifObj,
+	userContext
+}) => {
+	
+
 	if (search_query.length === 0) return suggestionsImage();
 
 
@@ -49,13 +61,13 @@ const Searches = ({ search_query, current_page, setCurrentPage, setAlertMessage 
 
 	const { error, loading, data } = useQuery(QUERY, { variables: {search_query, current_page} });
 
+	// conditional rendering
 	if (loading || !data) return (
 		<h3 className="search-message">Loading...</h3>
 	);
 	if (error) return (
 		<h3 className="search-message">Error occurred while fetching data.</h3>
 	);
-
 	// DATA RETRIEVED -> but zero results?
 	if (data.search_response.data.length === 0) return (
 		<h3 className="search-message">No results found.</h3>
@@ -64,10 +76,12 @@ const Searches = ({ search_query, current_page, setCurrentPage, setAlertMessage 
 	// deconstructing the response
 	const { data: results_data, pagination } = data.search_response;
 
-	// when a gif is clicked
+
 	const gifClicked = function(item) {
-		console.log(item.title);
-		console.log(item.images.original.webp);
+		setGifObj({
+			title: item.title,
+			url: item.images.original.webp
+		});
 	};
 
 	const pageInfo = {
@@ -100,6 +114,12 @@ const Searches = ({ search_query, current_page, setCurrentPage, setAlertMessage 
 	// gifs data retrieved, render results container and results info like page number
 	return (
 		<Fragment>
+			<GifModal 
+			gifObj={gifObj} 
+			setGifObj={setGifObj} 
+			setAlertMessage={setAlertMessage}
+			userContext={userContext} />
+
 			<div id="results-container">
 				{results_data.map( (item) => (
 					<div className="gif-div" key={item.id}>
@@ -142,20 +162,3 @@ Searches.propTypes = {
 }
 
 export default withApollo(Searches);
-
-/*
-// render results-info-div for testing
-export default () => (
-	<div id="results-info-div">
-		<div>
-			<button>Next Page</button>
-			<p>Page 2 out of 20</p>
-			
-			<div>
-				<label>Go to page: </label>
-				<input id="page-number-input" type="number" defaultValue="1"/>
-				<button>Go</button>
-			</div>
-		</div>
-	</div>
-);*/

@@ -35,6 +35,8 @@ module.exports = function(server, app, oidc){
 
 
 	// AUTHENTICATION NEEDED ROUTES
+	//   make sure the authenticated user is the sender
+	const checkSender = (senderId, currentUserId) => senderId === currentUserId;
 
 	server.get('/myProfile', oidc.ensureAuthenticated(), (req, res) => {
 		(async function(){
@@ -85,9 +87,25 @@ module.exports = function(server, app, oidc){
 	});
 
 	
+	server.get('/get_my_collections', oidc.ensureAuthenticated(), (req, res) => {
+		(async function(){
+			const result = await db_methods.getMyCollections(req.userContext.userinfo);
+
+			// result.err_message is received if error occurred.
+			// else: result.collections is defined
+			return res.send(result);
+		})()
+	});
+
+	server.post('/add_gif', oidc.ensureAuthenticated(), (req, res) => {
+		if (!checkSender(req.userContext.userinfo.sub, req.body.sender_okta_id)){
+			return console.log("Request sender is not the user.");
+		}
+
+	});
+	
+
 	// Friendship manipulation routes
-	//   make sure the authenticated user is the sender
-	const checkSender = (senderId, currentUserId) => senderId === currentUserId;
 
 	server.post('/add_friend', oidc.ensureAuthenticated(), (req, res) => {
 		if (!checkSender(req.userContext.userinfo.sub, req.body.sender_okta_id)){
@@ -210,6 +228,7 @@ module.exports = function(server, app, oidc){
 			if (response.err_message){
 				res.send({err_message: response.err_message});
 			} else {
+				// collection has the propety editPermission to be true if current user is owner
 				res.send(response.collection);
 			}
 		})()

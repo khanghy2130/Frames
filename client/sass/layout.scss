@@ -86,6 +86,65 @@ button {
 	}
 }
 
+#gif-modal {
+	position: fixed;
+	z-index: 3;
+	left: 0;
+	top: 0;
+	width: 100vw;
+	height: 100vh;
+	background-color: rgba(0,0,0,0.7);
+	padding: 5vh 10vw 0;
+
+	#gif-modal-content {
+		background-color: $dark-2;
+		display: flex;
+		flex-direction: column;
+		max-height: 90vh;
+		overflow-y: scroll;
+
+		.close-button-div {
+			button {
+				color: $red;
+			}
+		}
+			
+		#gif-info {
+			width: 100%;
+			text-align: center;
+
+			h1 {
+				@extend .font-header;
+				color: $light-1; 
+			}
+			img {
+				width: 70%;
+
+			}
+		}
+
+		// collections container
+		#add-to-collections-div {
+			background-color: gray;
+		}
+		
+	}
+}
+#gif-modal-loading {
+	position: fixed;
+	z-index: 3;
+	left: 0;
+	top: 0;
+	width: 100vw;
+	height: 100vh;
+	background-color: rgba(0,0,0,0.7);
+	padding: 35vh 0;
+	text-align: center;
+	color: $light-1;
+	font-size: 3em;
+}
+
+
 
 /* Header */
 header {

@@ -3,8 +3,6 @@ const mongoose = require("mongoose");
 // models
 const User = require("./models/user.js");
 const Collection = require("./models/collection.js");
-const Gif = require("./models/gif.js");
-
 
 module.exports = {
 
@@ -112,13 +110,37 @@ module.exports = {
 		});
 	},
 
+	// /get_my_collections GET route
+	getMyCollections: function(userinfo){
+		return new Promise( function (resolve){
+			User.findOne({okta_id: userinfo.sub})
+			.populate("collections")
+			.exec(function(err, foundUser){
+				if (err) return resolve({
+					err_message: "Error while finding user."
+				});
+				if (foundUser === null) return resolve({
+					err_message: "User not found."
+				});
+				
+				return resolve({
+					collections: foundUser.collections
+				});
+			});
+		});
+	},
+
+	// /add_gif POST route
+	addGif: function(userinfo, collection_id){
+		// make sure current user is the owner of this collection
+
+	},
 
 	// /get_collection/:collection_id   GET route (protected)
 	// response contains err_message or collection
 	getCollection: function(userContext, collection_id){
 		return new Promise( function (resolve){
 			Collection.findById(collection_id)
-			.populate("gifs")
 			.exec(function(err1, foundCollection){
 				if (err1) return resolve({err_message: err1.message});
 				if (foundCollection === null) return resolve({
@@ -127,6 +149,11 @@ module.exports = {
 
 				// if visibility is public then no further checking needed
 				if (foundCollection.visibility === 2){
+					// include editPermission if is owner
+					if (userContext && 
+						foundCollection.owner_okta_id === userContext.userinfo.sub){
+						foundCollection.editPermission = true;
+					}
 					return resolve({collection: foundCollection}); // public!
 				}
 				else {
@@ -137,6 +164,7 @@ module.exports = {
 
 					// check if user owns this collection (no matter private or friend-only)
 					if (foundCollection.owner_okta_id === userContext.userinfo.sub){
+						foundCollection.editPermission = true;
 						return resolve({collection: foundCollection}); // owner!
 					}
 
@@ -220,10 +248,8 @@ module.exports = {
 						foundUser.collections = foundUser.collections.filter(c => {
 							// if is public
 							if (c.visibility === 2) return true;
-
 							// if is private
 							if (c.visibility === 0) return false;
-
 							// if is friends-only
 							return friendshipStatus === 3; // friend added?
 						});
