@@ -131,9 +131,18 @@ module.exports = {
 	},
 
 	// /add_gif POST route
-	addGif: function(userinfo, collection_id){
-		// make sure current user is the owner of this collection
+	addGif: function(userinfo, collection_id, gifObj){
+		Collection.findById(collection_id, function(err, foundCollection){
+			if (err) return console.log(err);
 
+			// check owner
+			if (userinfo.sub !== foundCollection.owner_okta_id){
+				return console.log("Sender is not collection owner.");
+			}
+
+			foundCollection.gifs.push(gifObj);
+			foundCollection.save();
+		});
 	},
 
 	// /get_collection/:collection_id   GET route (protected)

@@ -98,10 +98,11 @@ module.exports = function(server, app, oidc){
 	});
 
 	server.post('/add_gif', oidc.ensureAuthenticated(), (req, res) => {
-		if (!checkSender(req.userContext.userinfo.sub, req.body.sender_okta_id)){
-			return console.log("Request sender is not the user.");
-		}
-
+		db_methods.addGif(
+			req.userContext.userinfo, 
+			req.body.collection_id, 
+			req.body.gifObj
+		);
 	});
 	
 

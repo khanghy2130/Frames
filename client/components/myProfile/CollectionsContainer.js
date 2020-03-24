@@ -151,7 +151,7 @@ const CollectionsContainer = ({ setAlertMessage, collections, setCollections }) 
 						</span>
 
 						&nbsp;&nbsp;
-						{ collection.title }
+						{ `${collection.title} (${collection.gifs.length})` }
 					</button>
 					<button className="collection-edit" title="Edit"
 					onClick={ editCollection.bind(collection) }>

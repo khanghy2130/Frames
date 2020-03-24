@@ -55,10 +55,30 @@ export default ({ gifObj, setGifObj, setAlertMessage, userContext }) => {
 			}
 			else return c;
 		}));
+
+		// send request
+		axios.post('/add_gif', {
+			collection_id: collection._id,
+			gifObj: gifObj
+		});
 	};
 
 	const createCollection = () => {
-		console.log("creating collection, and wait!"); /////////
+		// make a request to create and save a new collection, and retrieve it
+		axios.post('/myProfile/create_collection', {})
+		.then(response => {
+			if (response.data.err){
+				setAlertMessage("Error while creating new collection.");
+			}
+			else {
+				// add to the displaying list
+				setCollections(collections => [...collections, response.data.newCollection]); 
+			}
+		})
+		.catch(error => {
+			console.log(error);
+			setAlertMessage("Error while creating new collection.");
+		});
 	};
 
 	return (

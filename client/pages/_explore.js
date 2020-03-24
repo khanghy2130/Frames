@@ -11,10 +11,6 @@ import Searches from '../components/explore/Searches.js';
 import '../sass/pages/explore.scss';
 
 
-
-//////////////////////////// quick gif model testing 
-import GifModal from '../components/GifModal.js';
-
 // welcome div component
 const welcomeDiv = (userContext) => {
 	if (userContext) return (
@@ -46,15 +42,8 @@ const explore = ({ userContext, serverMessage }) => {
 
 	// for search button: doing a search
 	const doSearch = () => {
-		/*
 		setSearchQuery(searchInput.current.value);
-		setCurrentPage(1);*/
-
-		///////////////////////////////////////// dummy data for testing
-		setGifObj({
-			title: "dummy gif",
-			url: "https://media2.giphy.com/media/chGsPoJZke5eo/giphy.webp?cid=cd718905f2eafcc210100cde65df5804760de568785ad4e2&rid=giphy.webp"
-		});
+		setCurrentPage(1);
 	};
 	const onEnter = e => { if (e.key === 'Enter') doSearch(); };
 	
@@ -66,10 +55,7 @@ const explore = ({ userContext, serverMessage }) => {
 			<div id="welcome-div">
 				{welcomeDiv(userContext)}
 			</div>
-		<GifModal gifObj={gifObj} 
-	setGifObj={setGifObj} 
-setAlertMessage={setAlertMessage} 
-userContext={userContext}/> {/*////////////gif modal testing//////////////////////*/}
+
 			<div id="search-bar">
 				<div>
 					<input ref={searchInput}
