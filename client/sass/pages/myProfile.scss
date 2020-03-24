@@ -68,7 +68,6 @@
 
 		#logout-button {
 			@extend .button-hover-class;
-			@extend .font-body;
 			width: 100%;
 			color: $red;
 			font-size: 1.5em;
@@ -147,7 +146,6 @@
 
 							button {
 								@extend .button-hover-class;
-								@extend .font-body;
 								font-size: 1.2em;
 								padding: 0.5em;
 								margin-right: 1em;
@@ -178,7 +176,6 @@
 					// both buttons (the displaying collection item)
 					button {
 						@extend .button-hover-class;
-						@extend .font-body;
 						color: $light-1;
 						font-size: 1.2em;
 					}
@@ -196,7 +193,6 @@
 
 				#create-collection-button {
 					@extend .button-hover-class;
-					@extend .font-body;
 					color: $light-1;
 					font-size: 1.2em;
 					width: 100%;
@@ -229,7 +225,6 @@
 
 							button {
 								@extend .button-hover-class;
-								@extend .font-body;
 								color: $red;
 								font-size: 1em;
 								padding: 0.5em;
@@ -267,7 +262,6 @@
 
 								button {
 									@extend .button-hover-class;
-									@extend .font-body;
 									padding: 0.5em;
 									font-size: 0.7em;
 

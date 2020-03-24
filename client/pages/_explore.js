@@ -12,7 +12,7 @@ import '../sass/pages/explore.scss';
 
 
 
-////////////////////////////
+//////////////////////////// quick gif model testing 
 import GifModal from '../components/GifModal.js';
 
 // welcome div component
@@ -50,7 +50,7 @@ const explore = ({ userContext, serverMessage }) => {
 		setSearchQuery(searchInput.current.value);
 		setCurrentPage(1);*/
 
-		///////////////////////////////////////// quick open for testing
+		///////////////////////////////////////// dummy data for testing
 		setGifObj({
 			title: "dummy gif",
 			url: "https://media2.giphy.com/media/chGsPoJZke5eo/giphy.webp?cid=cd718905f2eafcc210100cde65df5804760de568785ad4e2&rid=giphy.webp"

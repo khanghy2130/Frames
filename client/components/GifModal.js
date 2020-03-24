@@ -3,7 +3,7 @@
 // shown when open a gif from search results (/explore) or from collection modals
 
 import axios from "axios";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Fragment } from 'react';
 import ReactImageFallback from 'react-image-fallback';
 
 import spinnerImage from '../images/spinner.gif';
@@ -18,23 +18,23 @@ export default ({ gifObj, setGifObj, setAlertMessage, userContext }) => {
 	const [collections, setCollections] = useState(null);
 
 	useEffect(() => {
-		// unauthenticated ?
-		if (!userContext){
-			return null;
+		// authenticated ?
+		if (userContext){
+			(async function(){
+				console.log("sending request"); ///////////// keep track of when it sends
+				const result = await axios.get('/get_my_collections');
+
+				// error occurred
+				if (result.data.err_message){
+					setAlertMessage(result.data.err_message);
+					return closeGifModal(); // end this function
+				}
+
+				// data fetched
+				setCollections(result.data.collections);
+			})()
 		}
-		(async function(){
-			console.log("sending request"); ///////////// keep track of when it sends
-			const result = await axios.get('/get_my_collections');
-
-			// error occurred
-			if (result.data.err_message){
-				setAlertMessage(result.data.err_message);
-				return closeGifModal(); // end this function
-			}
-
-			// data fetched
-			setCollections(result.data.collections);
-		})()
+			
 	}, []);
 
 
@@ -57,13 +57,18 @@ export default ({ gifObj, setGifObj, setAlertMessage, userContext }) => {
 		}));
 	};
 
+	const createCollection = () => {
+		console.log("creating collection, and wait!"); /////////
+	};
 
 	return (
 		<div id="gif-modal">
 			<div id="gif-modal-content">
 
 				<div className="close-button-div">
-					<button onClick={closeGifModal}>Close</button>
+					<button onClick={closeGifModal}>
+						<i className="fas fa-times" />&nbsp;Close
+					</button>
 				</div>
 
 				<div id="gif-info">
@@ -82,39 +87,46 @@ export default ({ gifObj, setGifObj, setAlertMessage, userContext }) => {
 							<p id="not-logged-in">
 								<a href='/login'>Log in</a> to start collecting.
 							</p>
-						) : (
-							collections.map(c => (
-								<div className="add-collection-item"
-								key={c._id}>
-									<h3>
-										{ 
-											// render visibility icon
-											<i className={
-												[
-													'fas fa-lock',
-													'fas fa-user-friends',
-													'fas fa-globe'
-												][c.visibility]
-											}/>
-										}
+						) : (<Fragment>
+								{collections.map(c => (
+									<div className="add-collection-item"
+									key={c._id}>
+										<h3>
+											{ 
+												// render visibility icon
+												<i className={
+													[
+														'fas fa-lock',
+														'fas fa-user-friends',
+														'fas fa-globe'
+													][c.visibility]
+												}/>
+											}
 
-										&nbsp;&nbsp;
-										{ `${c.title} (${c.gifs.length})` }
-									</h3>
-									{
-										(!c.added) ? (
-											<button onClick={ () => {addGif(c)} }>
-												Add
-											</button>
-										) : (
-											<button disabled>
-												Added
-											</button>
-										)
-									}
-									
-								</div>
-							))
+											&nbsp;&nbsp;
+											{ `${c.title} (${c.gifs.length})` }
+										</h3>
+										{
+											(!c.added) ? (
+												<button className="enabled-btn"
+												onClick={ () => {addGif(c)} }>
+													Add
+												</button>
+											) : (
+												<button disabled>
+													Added
+												</button>
+											)
+										}
+										
+									</div>
+								))}
+
+								<button id="create-collection-btn"
+								onClick={createCollection}>
+									Create new collection
+								</button>
+							</Fragment>
 						)
 					}
 				</div>

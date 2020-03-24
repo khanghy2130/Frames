@@ -17,6 +17,7 @@ a {
 	text-decoration: none;
 }
 button {
+	@extend .font-body;
 	background-color: transparent;
 	border: none;
 }
@@ -100,12 +101,20 @@ button {
 		background-color: $dark-2;
 		display: flex;
 		flex-direction: column;
+		align-items: center;
 		max-height: 90vh;
 		overflow-y: scroll;
 
 		.close-button-div {
+			align-self: stretch;
+			text-align: left;
+			margin-bottom: 1em;
+
 			button {
+				@extend .button-hover-class;
 				color: $red;
+				padding: 0.5em 1em;
+				font-size: 1.5em;
 			}
 		}
 			
@@ -115,17 +124,70 @@ button {
 
 			h1 {
 				@extend .font-header;
-				color: $light-1; 
+				color: $light-1;
+				font-size: 1.3em;
+				padding: 0.5em;
 			}
 			img {
 				width: 70%;
-
 			}
 		}
 
 		// collections container
 		#add-to-collections-div {
-			background-color: gray;
+			display: flex;
+			flex-direction: column;
+			margin: 2em 0;
+			width: 28em;
+
+			#not-logged-in {
+				color: $light-1;
+				font-size: 1.5em;
+				text-align: center; 
+				a {
+					color: $main-blue;
+					&:hover {
+						text-decoration: line-through;
+					}
+				}
+			}
+
+			.add-collection-item {
+				display: flex;
+				align-items: center;
+
+				// lighter background for every even item
+				&:nth-child(2n){
+					background-color: rgba(100, 100, 100, 0.1);
+				}
+
+				h3 {
+					color: $light-1;
+					flex-grow: 1;
+					font-size: 1.2em;
+					padding: 0.3em 0.7em;
+				}
+
+				button {
+					font-size: 1.3em;
+					padding: 0.7em;
+
+					&.enabled-btn {
+						@extend .button-hover-class;
+						color: $main-blue;
+					}
+					&:disabled {
+						color: $green;
+					}
+				}
+			}
+
+			#create-collection-btn {
+				@extend .button-hover-class;
+				color: $main-blue;
+				font-size: 1.2em;
+				padding: 0.5em;
+			}
 		}
 		
 	}
@@ -262,6 +324,21 @@ footer {
 			}
 			#nav-toggler {
 				font-size: 6vw;
+			}
+		}
+	}
+
+	#gif-modal {
+		padding: 5vh 5vw 0;
+
+		#gif-modal-content {
+			#gif-info {
+				img {
+					width: 90%;
+				}
+			}
+			#add-to-collections-div {
+				width: 100%;
 			}
 		}
 	}
