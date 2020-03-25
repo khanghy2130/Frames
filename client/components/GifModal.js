@@ -9,19 +9,29 @@ import ReactImageFallback from 'react-image-fallback';
 import spinnerImage from '../images/spinner.gif';
 
 
-export default ({ gifObj, setGifObj, setAlertMessage, userContext }) => {
+export default ({ 
+	gifObj, 
+	setGifObj, 
+	setAlertMessage, 
+	loggedIn,
+
+	// only defined if in /myProfile route
+	collections,
+	setCollections
+}) => {
 	if (!gifObj) return (null); // closed state
 
 	const closeGifModal = () => { setGifObj(null) };
 
-	// GOAL: get collections data before showing modal
-	const [collections, setCollections] = useState(null);
+	// if not already defined
+	if (!collections){
+		[collections, setCollections] = useState(null);
+	}
 
 	useEffect(() => {
 		// authenticated ?
-		if (userContext){
+		if (loggedIn){
 			(async function(){
-				console.log("sending request"); ///////////// keep track of when it sends
 				const result = await axios.get('/get_my_collections');
 
 				// error occurred
@@ -39,7 +49,7 @@ export default ({ gifObj, setGifObj, setAlertMessage, userContext }) => {
 
 
 	// render this if still fetching collections data
-	if (!collections && userContext) return (
+	if (!collections && loggedIn) return (
 		<div id="gif-modal-loading">
 			Loading...
 		</div>
@@ -49,7 +59,8 @@ export default ({ gifObj, setGifObj, setAlertMessage, userContext }) => {
 		// update UI for this collection item
 		setCollections(collections.map(c => {
 			if (c === collection){
-				c.gifs.push({}); // push a dummy item to bump up the length
+				gifObj._id = c.gifs.length; // temporary for key
+				c.gifs.push(gifObj);
 				c.added = true;
 				return c;
 			}
@@ -59,7 +70,10 @@ export default ({ gifObj, setGifObj, setAlertMessage, userContext }) => {
 		// send request
 		axios.post('/add_gif', {
 			collection_id: collection._id,
-			gifObj: gifObj
+			gifObj: {
+				title: gifObj.title,
+				url: gifObj.url
+			}
 		});
 	};
 
@@ -72,7 +86,9 @@ export default ({ gifObj, setGifObj, setAlertMessage, userContext }) => {
 			}
 			else {
 				// add to the displaying list
-				setCollections(collections => [...collections, response.data.newCollection]); 
+				setCollections(
+					collections => [...collections, response.data.newCollection]
+				); 
 			}
 		})
 		.catch(error => {
@@ -103,7 +119,7 @@ export default ({ gifObj, setGifObj, setAlertMessage, userContext }) => {
 				<div id="add-to-collections-div">
 					{	
 						// not logged in?
-						(!userContext) ? (
+						(!loggedIn) ? (
 							<p id="not-logged-in">
 								<a href='/login'>Log in</a> to start collecting.
 							</p>

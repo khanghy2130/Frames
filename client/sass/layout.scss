@@ -206,6 +206,89 @@ button {
 	font-size: 3em;
 }
 
+#collection-modal {
+	position: fixed;
+	z-index: 2;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	width: 100vw;
+	
+	background-color: $dark-2;
+
+	display: flex;
+	flex-direction: column;
+
+	#collection-modal-content {
+		overflow-y: scroll;
+
+		#collection-modal-buttons-div {
+			display: flex;
+			justify-content: space-between;
+
+			button {
+				@extend .button-hover-class;
+				font-size: 1.2em;
+				padding: 0.7em 2em;
+
+				// back button
+				&:nth-child(1) {
+					color: $main-blue;
+				}
+				// toggle mode button
+				&:nth-child(2) {
+					color: $red;
+					&.delete-mode-on {
+						color: $dark-2;
+						background-color: $red;
+					}
+				}
+			}
+		}
+
+		h1 {
+			color: $light-1;
+			font-size: 1.5em;
+			padding: 0.7em 0.5em;
+		}
+
+		// no-gif note and delete-mode note 
+		p {
+			color: $red;
+			font-size: 1em;
+			margin-bottom: 1em;
+		}
+
+		#collection-modal-gifs-container {
+			background-color: $light-1;
+			padding: 3em 1em;
+			
+			column-count: 4;
+	  		column-gap: 0px;
+
+			.gif-div {
+				width: 100%; /* fill a column */
+
+				img {
+					display: block;
+					cursor: pointer;
+					width: 100%;
+					height: auto;
+					border: transparent 0.3em solid;
+
+					&:hover {
+						border-color: $dark-1;
+					}
+
+					&.delete-mode-on:hover {
+						border-color: $red !important;
+					}
+				}
+			}
+		}
+	}
+}	
+
 
 
 /* Header */
@@ -340,6 +423,21 @@ footer {
 			#add-to-collections-div {
 				width: 100%;
 			}
+		}
+	}
+
+	#collection-modal {
+		#collection-modal-content {
+			#collection-modal-buttons-div {
+				button {
+					padding: 0.5em 1em;
+				}
+			}
+
+			#collection-modal-gifs-container {
+				padding: 3em 0.5em;
+				column-count: 2;
+		  	}
 		}
 	}
 }

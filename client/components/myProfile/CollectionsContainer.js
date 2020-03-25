@@ -2,6 +2,7 @@ import axios from "axios";
 import PropTypes from "prop-types";
 import { useState, useRef } from 'react';
 
+import CollectionModal from '../CollectionModal.js';
 
 const EditModal = ({ setAlertMessage, showEdit, setShowEdit, selectedCollection, collections, setCollections }) => {
 	if (!showEdit) return (null); // hidden
@@ -97,12 +98,16 @@ const EditModal = ({ setAlertMessage, showEdit, setShowEdit, selectedCollection,
 
 const CollectionsContainer = ({ setAlertMessage, collections, setCollections }) => {
 	const [showEdit, setShowEdit] = useState(false);
+	const [showSelected, setShowSelected] = useState(false);
+
+	// selected collection for editting and showing
 	const [selectedCollection, setSelectedCollection] = useState(null);
 
 	// when clicked on the binded collection
 	const openCollection = function() {
-		////////////////////// set alert if err_message is defined
-		console.log(this.title);
+		// set the target collection and open collection modal
+		setSelectedCollection(this);
+		setShowSelected(true);
 	};
 
 	// when clicked on the edit button
@@ -169,6 +174,19 @@ const CollectionsContainer = ({ setAlertMessage, collections, setCollections }) 
 				setAlertMessage={setAlertMessage}
 				showEdit={showEdit}
 				setShowEdit={setShowEdit}
+
+				selectedCollection={selectedCollection}
+				collections={collections}
+				setCollections={setCollections}
+			/>
+
+			<CollectionModal 
+				setAlertMessage={setAlertMessage}
+				isOwner={true}
+				
+				showSelected={showSelected}
+				setShowSelected={setShowSelected}
+				
 				selectedCollection={selectedCollection}
 				collections={collections}
 				setCollections={setCollections}

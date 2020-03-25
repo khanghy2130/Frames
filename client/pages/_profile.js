@@ -36,6 +36,8 @@ const CollectionsContainer = ({collections}) => {
 					</button>
 				</div>
 			)) }
+
+			{/*   PUT  COLLECTION  MODAL  HERE  !!!!  !!!! */}
 		</div>
 	);
 };

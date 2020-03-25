@@ -23,6 +23,7 @@ const Searches = ({
 	current_page, 
 	setCurrentPage, 
 	setAlertMessage,
+	
 	gifObj,
 	setGifObj,
 	userContext
@@ -118,7 +119,7 @@ const Searches = ({
 			gifObj={gifObj} 
 			setGifObj={setGifObj} 
 			setAlertMessage={setAlertMessage}
-			userContext={userContext} />
+			loggedIn={(userContext) ? true : false} />
 
 			<div id="results-container">
 				{results_data.map( (item) => (
