@@ -13,20 +13,13 @@ export default ({
 	gifObj, 
 	setGifObj, 
 	setAlertMessage, 
-	loggedIn,
-
-	// only defined if in /myProfile route
-	collections,
-	setCollections
+	loggedIn
 }) => {
 	if (!gifObj) return (null); // closed state
 
 	const closeGifModal = () => { setGifObj(null) };
 
-	// if not already defined
-	if (!collections){
-		[collections, setCollections] = useState(null);
-	}
+	const [collections, setCollections] = useState(null);
 
 	useEffect(() => {
 		// authenticated ?
@@ -59,8 +52,12 @@ export default ({
 		// update UI for this collection item
 		setCollections(collections.map(c => {
 			if (c === collection){
-				gifObj._id = c.gifs.length; // temporary for key
-				c.gifs.push(gifObj);
+				const dummyGif = {
+					_id: c.gifs.length, // temporary for key
+					title: gifObj.title,
+					url: gifObj.url
+				};
+				c.gifs.push(dummyGif);
 				c.added = true;
 				return c;
 			}

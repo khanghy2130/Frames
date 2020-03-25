@@ -91,7 +91,7 @@ module.exports = function(server, app, oidc){
 		(async function(){
 			const result = await db_methods.getMyCollections(req.userContext.userinfo);
 
-			// result.err_message is received if error occurred.
+			// result.err_message is defined if error occurred.
 			// else: result.collections is defined
 			return res.send(result);
 		})()
@@ -99,6 +99,14 @@ module.exports = function(server, app, oidc){
 
 	server.post('/add_gif', oidc.ensureAuthenticated(), (req, res) => {
 		db_methods.addGif(
+			req.userContext.userinfo, 
+			req.body.collection_id, 
+			req.body.gifObj
+		);
+	});
+
+	server.post('/delete_gif', oidc.ensureAuthenticated(), (req, res) => {
+		db_methods.deleteGif(
 			req.userContext.userinfo, 
 			req.body.collection_id, 
 			req.body.gifObj
@@ -136,102 +144,27 @@ module.exports = function(server, app, oidc){
 		);
 	});
 
-	////// TEST ROUTES
-	// unauthenticated myProfile route for quick styling test with dummy data
-	server.get('/myProfile_test', (req, res) => {
-		app.render(req, res, '/authenticated/_myProfile', {
-			userData : {
-				okta_id: "5e6da9086c73b92d24dc95f1",
-				display_name: "AwesomeUser52",
-				avatar_seed: "35957",
-				collections: [
-					{
-						_id: "1",
-						title: "Untitled Collection 1",
-						visibility: 0,
-						gifs: [{name: 'gif no 1'},{name: 'gif no 2'}]
-					},
-					{
-						_id: "2",
-						title: "Untitled Collection 2",
-						visibility: 1,
-						gifs: []
-					},
-					{
-						_id: "3",
-						title: "Untitled Collection 3",
-						visibility: 2,
-						gifs: []
-					}
-
-				],
-				friends: [
-					{
-						friendship_status: 3,
-						user: {
-							okta_id: "5e6ds",
-							display_name: "Nice_Friend",
-							avatar_seed: "508",
-						}
-					},
-					{
-						friendship_status: 3,
-						user: {
-							okta_id: "5e6ds42",
-							display_name: "Ok_Friend",
-							avatar_seed: "35264",
-						}
-					},
-					{
-						friendship_status: 2,
-						user: {
-							okta_id: "5e52ds",
-							display_name: "Stalker",
-							avatar_seed: "6064",
-						}
-					},
-					{
-						friendship_status: 1,
-						user: {
-							okta_id: "5gf6ds",
-							display_name: "Famous_Person",
-							avatar_seed: "48200",
-						}
-					},
-					{
-						friendship_status: 2,
-						user: {
-							okta_id: "bvds",
-							display_name: "Sneaky_Stalkie",
-							avatar_seed: "9964",
-						}
-					}
-					
-				]
-			}
-		});
-	});
-
 
 
 	// NO AUTHENTICATION NEEDED ROUTES
 
 	// API GET ROUTE; get data of a collection
-	server.get('/get_collection/:collection_id', (req, res) => {
+	server.get('/collection/:collection_id', (req, res) => {
 		/* if the collection is ...
+			owned by current user: no further checking needed
 			public: no further checking needed
-			friend-only: check authenticated, own collection or is friend with owner
+			friend-only: check is friend with owner
 			private: check authenticated, own collection
 		*/
 		(async function(){
 			const response = await db_methods.getCollection(req.userContext, req.params.collection_id);
 			
-			if (response.err_message){
-				res.send({err_message: response.err_message});
-			} else {
-				// collection has the propety editPermission to be true if current user is owner
-				res.send(response.collection);
-			}
+			// dataResponse has err_message if error occurred
+			// else: has collection and isOwner
+			app.render(req, res, '/_collection', { 
+				userContext : req.userContext,
+				dataResponse: response
+			});
 		})()
 	});
 

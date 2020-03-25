@@ -173,20 +173,19 @@
 				.collection-item {
 					display: flex;
 					
-					// both buttons (the displaying collection item)
-					button {
+					.collection-title {
 						@extend .button-hover-class;
 						color: $light-1;
 						font-size: 1.2em;
-					}
-
-					.collection-title {
 						text-align: left;
 						flex-grow: 1;
 						padding: 0.7em 1em;
 					}
 					
 					.collection-edit {
+						@extend .button-hover-class;
+						color: $light-1;
+						font-size: 1.2em;
 						padding: 0.7em;
 					}
 				}

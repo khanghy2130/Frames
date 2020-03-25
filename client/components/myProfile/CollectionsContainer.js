@@ -1,8 +1,8 @@
+import Link from 'next/link';
 import axios from "axios";
 import PropTypes from "prop-types";
 import { useState, useRef } from 'react';
 
-import CollectionModal from '../CollectionModal.js';
 
 const EditModal = ({ setAlertMessage, showEdit, setShowEdit, selectedCollection, collections, setCollections }) => {
 	if (!showEdit) return (null); // hidden
@@ -98,17 +98,8 @@ const EditModal = ({ setAlertMessage, showEdit, setShowEdit, selectedCollection,
 
 const CollectionsContainer = ({ setAlertMessage, collections, setCollections }) => {
 	const [showEdit, setShowEdit] = useState(false);
-	const [showSelected, setShowSelected] = useState(false);
-
-	// selected collection for editting and showing
+	// selected collection for editting 
 	const [selectedCollection, setSelectedCollection] = useState(null);
-
-	// when clicked on the binded collection
-	const openCollection = function() {
-		// set the target collection and open collection modal
-		setSelectedCollection(this);
-		setShowSelected(true);
-	};
 
 	// when clicked on the edit button
 	const editCollection = function() {
@@ -139,25 +130,27 @@ const CollectionsContainer = ({ setAlertMessage, collections, setCollections }) 
 		<div id="collections-container">
 			{ collections.map(collection => (
 				<div key={ collection._id } className="collection-item">
-					<button className="collection-title"
-					onClick={ openCollection.bind(collection) }>
-						<span key={collection._id + collection.visibility}>
-						{ 
-							// use key in span to update icon when changed
-							// render visibility icon
-							<i className={
-								[
-									'fas fa-lock',
-									'fas fa-user-friends',
-									'fas fa-globe'
-								][collection.visibility]
-							}/>
-						}
-						</span>
+					<Link
+					href={`/collection/${collection._id}`}>
+						<a className="collection-title">
+							<span key={collection._id + collection.visibility}>
+							{ 
+								// use key in span to update icon when changed
+								// render visibility icon
+								<i className={
+									[
+										'fas fa-lock',
+										'fas fa-user-friends',
+										'fas fa-globe'
+									][collection.visibility]
+								}/>
+							}
+							</span>
 
-						&nbsp;&nbsp;
-						{ `${collection.title} (${collection.gifs.length})` }
-					</button>
+							&nbsp;&nbsp;
+							{ `${collection.title} (${collection.gifs.length})` }
+						</a>
+					</Link>
 					<button className="collection-edit" title="Edit"
 					onClick={ editCollection.bind(collection) }>
 						<i className="fas fa-cog"/>
@@ -175,18 +168,6 @@ const CollectionsContainer = ({ setAlertMessage, collections, setCollections }) 
 				showEdit={showEdit}
 				setShowEdit={setShowEdit}
 
-				selectedCollection={selectedCollection}
-				collections={collections}
-				setCollections={setCollections}
-			/>
-
-			<CollectionModal 
-				setAlertMessage={setAlertMessage}
-				isOwner={true}
-				
-				showSelected={showSelected}
-				setShowSelected={setShowSelected}
-				
 				selectedCollection={selectedCollection}
 				collections={collections}
 				setCollections={setCollections}

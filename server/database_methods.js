@@ -145,7 +145,28 @@ module.exports = {
 		});
 	},
 
-	// /get_collection/:collection_id   GET route (protected)
+	// /delete_gif POST route
+	deleteGif: function(userinfo, collection_id, gifObj){
+		Collection.findById(collection_id, function(err, foundCollection){
+			if (err) return console.log(err);
+
+			// check owner
+			if (userinfo.sub !== foundCollection.owner_okta_id){
+				return console.log("Sender is not collection owner.");
+			}
+
+			// if _id is mongoDB id
+			if (gifObj._id.toString().match(/^[a-f\d]{24}$/i)){
+				foundCollection.gifs.pull(gifObj._id);
+				foundCollection.save();
+			}
+			else {
+				console.log("Failed to delete GIF, _id is not valid.");
+			}
+		});
+	},
+
+	// /collection/:collection_id   GET route (protected)
 	// response contains err_message or collection
 	getCollection: function(userContext, collection_id){
 		return new Promise( function (resolve){
@@ -156,13 +177,19 @@ module.exports = {
 					err_message: "Collection not found."
 				});
 
+				// check if user owns this collection (no matter private or friend-only)
+				if (userContext && 
+					foundCollection.owner_okta_id === userContext.userinfo.sub){
+				console.log(foundCollection);
+					return resolve({
+						collection: foundCollection,
+						isOwner: true
+					}); // owner!
+				}
+
+				// NOT OWNER!
 				// if visibility is public then no further checking needed
 				if (foundCollection.visibility === 2){
-					// include editPermission if is owner
-					if (userContext && 
-						foundCollection.owner_okta_id === userContext.userinfo.sub){
-						foundCollection.editPermission = true;
-					}
 					return resolve({collection: foundCollection}); // public!
 				}
 				else {
@@ -171,13 +198,6 @@ module.exports = {
 						err_message: 'Not logged in.'
 					});
 
-					// check if user owns this collection (no matter private or friend-only)
-					if (foundCollection.owner_okta_id === userContext.userinfo.sub){
-						foundCollection.editPermission = true;
-						return resolve({collection: foundCollection}); // owner!
-					}
-
-					// user is not the owner of this collection!
 					// is private collection?
 					if (foundCollection.visibility === 0){
 						return resolve({

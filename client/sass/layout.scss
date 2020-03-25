@@ -226,27 +226,27 @@ button {
 			display: flex;
 			justify-content: space-between;
 
-			button {
+			a, button {
 				@extend .button-hover-class;
 				font-size: 1.2em;
 				padding: 0.7em 2em;
+			}
 
-				// back button
-				&:nth-child(1) {
-					color: $main-blue;
-				}
-				// toggle mode button
-				&:nth-child(2) {
-					color: $red;
-					&.delete-mode-on {
-						color: $dark-2;
-						background-color: $red;
-					}
+			a {
+				color: $main-blue;
+			}
+			// toggle mode button
+			button {
+				color: $red;
+				&.delete-mode-on {
+					color: $dark-2;
+					background-color: $red;
 				}
 			}
 		}
 
 		h1 {
+			text-align: center;
 			color: $light-1;
 			font-size: 1.5em;
 			padding: 0.7em 0.5em;
@@ -254,6 +254,7 @@ button {
 
 		// no-gif note and delete-mode note 
 		p {
+			text-align: center;
 			color: $red;
 			font-size: 1em;
 			margin-bottom: 1em;
