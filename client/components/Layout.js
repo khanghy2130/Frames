@@ -24,7 +24,7 @@ const navLinks = (isAuthenticated) => {
                     <i className="fas fa-search"/>&nbsp;Explore
                 </a>
             </Link>
-            <Link href='/allProfiles'>
+            <Link href='/community'>
                 <a>
                     <i className="fas fa-users"/>&nbsp;Community
                 </a>
@@ -43,7 +43,7 @@ const navLinks = (isAuthenticated) => {
                     <i className="fas fa-search"/>&nbsp;Explore
                 </a>
             </Link>
-            <Link href='/allProfiles'>
+            <Link href='/community'>
                 <a>
                     <i className="fas fa-users"/>&nbsp;Community
                 </a>

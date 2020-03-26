@@ -55,6 +55,15 @@ module.exports = {
 		});
 	},
 
+	getCommunityData: function(){
+		return new Promise( function (resolve){
+			User.find({}, function(err, foundUsers){
+				if (err) return resolve(null); // error!
+				else return resolve(foundUsers);
+			});
+		});
+	},
+
 
 	// /myProfile/create_collection POST route
 	createNewCollection: function(userinfo){

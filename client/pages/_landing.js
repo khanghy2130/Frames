@@ -10,7 +10,7 @@ const landing = () => (
 	<div id='root'>
 		<HeadElement pageTitle={'Frames | Collect GIFs'} />
 
-		<main id="landing-page-main">
+		<main id="landing-main">
 			<Link href="/"><a>Let's Go</a></Link>
 
 		</main>

@@ -148,7 +148,7 @@ module.exports = function(server, app, oidc){
 
 	// NO AUTHENTICATION NEEDED ROUTES
 
-	// API GET ROUTE; get data of a collection
+	// view a collection
 	server.get('/collection/:collection_id', (req, res) => {
 		/* if the collection is ...
 			owned by current user: no further checking needed
@@ -194,6 +194,27 @@ module.exports = function(server, app, oidc){
 				app.render(req, res, '/_explore', {
 					userContext : req.userContext,
 					serverMessage: "Error while fetching user data."
+				});
+			}
+		})()
+	});
+
+	server.get('/community', (req, res) => {
+		(async function(){
+			// get all users info from database
+			const communityData = await db_methods.getCommunityData();
+			// successful fetch
+			if (communityData){
+				app.render(req, res, '/_community', {
+					userContext : req.userContext,
+					allUsers: communityData
+				});
+			}
+			// unsuccessful fetch
+			else {
+				app.render(req, res, '/_explore', {
+					userContext : req.userContext,
+					serverMessage: "Error while fetching community data."
 				});
 			}
 		})()
