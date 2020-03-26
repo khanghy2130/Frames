@@ -53,7 +53,7 @@ const FriendButton = ({ userContext, userData, setAlertMessage, fStatus, setFSta
 				<button id="add-friend-button" 
 				onClick={addFriendHandler}
 				className="enabled">
-					<i className="fas fa-plus" />&nbsp;Add friend
+					Add friend
 				</button>
 			);
 		}
@@ -64,7 +64,7 @@ const FriendButton = ({ userContext, userData, setAlertMessage, fStatus, setFSta
 			<button id="add-friend-button" 
 			onClick={unauthenticatedHandler}
 			className="enabled">
-				<i className="fas fa-plus" />&nbsp;Add Friend
+				Add Friend
 			</button>
 		);
 	}		

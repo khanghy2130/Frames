@@ -1,6 +1,7 @@
 // Profile page of a user that is not the current user
 
 import { useState } from 'react';
+import Link from 'next/link';
 
 import '../sass/pages/profile.scss';
 import Layout from '../components/Layout.js';
@@ -9,35 +10,31 @@ import AddFriendButton from '../components/profile/AddFriendButton.js';
 
 
 const CollectionsContainer = ({collections}) => {
-	// when clicked on the binded collection
-	const openCollection = function() {
-		console.log(this.title);
-	};
 
 	return (
 		<div id="collections-container">
 			{ collections.map(collection => (
 				<div key={ collection._id } className="collection-item">
-					<button className="collection-title"
-					onClick={ openCollection.bind(collection) }>
-						{
-							// render visibility icon
-							<i className={
-								[
-									'fas fa-lock',
-									'fas fa-user-friends',
-									'fas fa-globe'
-								][collection.visibility]
-							}/>
-						}
+					<Link
+					href={`/collection/${collection._id}`}>
+						<a className="collection-title">
+							{
+								// render visibility icon
+								<i className={
+									[
+										'fas fa-lock',
+										'fas fa-user-friends',
+										'fas fa-globe'
+									][collection.visibility]
+								}/>
+							}
 
-						&nbsp;&nbsp;
-						{ collection.title }
-					</button>
+							&nbsp;&nbsp;
+							{ `${collection.title} (${collection.gifs.length})` }
+						</a>
+					</Link>
 				</div>
 			)) }
-
-			{/*   PUT  COLLECTION  MODAL  HERE  !!!!  !!!! */}
 		</div>
 	);
 };

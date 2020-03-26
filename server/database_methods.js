@@ -180,7 +180,6 @@ module.exports = {
 				// check if user owns this collection (no matter private or friend-only)
 				if (userContext && 
 					foundCollection.owner_okta_id === userContext.userinfo.sub){
-				console.log(foundCollection);
 					return resolve({
 						collection: foundCollection,
 						isOwner: true
