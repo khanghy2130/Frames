@@ -1,4 +1,6 @@
-require('dotenv').config(); // read .env file
+ // read .env file if process.env.NODE_ENV !== 'development'
+if (process.env.NODE_ENV !== 'development') require('dotenv').config();
+
 const PORT = process.env.PORT || 3000;
 const DBURL = process.env.DBURL || "mongodb://localhost:27017/test";
 
