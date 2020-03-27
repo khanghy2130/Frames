@@ -84,6 +84,98 @@
 			}
 		}
 	}
+
+	#what-is-gif-div {
+		background-color: $dark-2;
+		color: $light-1;
+		text-align: center;
+		padding: 2em 0.5em;
+		margin-bottom: 2em;
+
+		h1 {
+			@extend .font-header;
+			font-size: 1.6em;
+		}
+		p {
+			text-align: justify;
+			font-size: 1.5em;
+			padding: 0.5em 5em;
+		}
+	}
+
+	#features-container {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		align-items: center;
+
+		.feature-item {
+			display: flex;
+			overflow: hidden;
+			background-color: $light-1;
+			border: 0.2em solid $dark-2;
+			border-radius: 1em;
+			margin: 1em;
+			width: 35em;
+
+			// animation set up
+			transition: 1s;
+			opacity: 0;
+			&.feature-item-animated {
+				animation: feature-item-animation 1s forwards;
+			}
+			@keyframes feature-item-animation {
+				0% {
+					opacity: 0;
+					transform: translateY(-5em);
+				}
+				40% {
+					opacity: 1;
+					transform: translateY(3em);
+				}
+				65% {
+					transform: translateY(-1em);
+				}
+				100% {
+					opacity: 1;
+					transform: translateY(0);
+				}
+		    }
+
+			& > img {
+				height: 11em;
+				width: auto;
+				border-right: 0.2em solid $dark-2; 
+			}
+			& > div {
+				h2 {
+					@extend .font-header;
+					font-size: 1.5em;
+					padding: 1em 0.5em 0;
+				}
+				p {
+					font-size: 1.35em;
+					padding: 1em 0.5em;
+				}
+			}
+		}
+	}
+
+	#top-button-div {
+		text-align: right;
+		margin-top: 2em;
+		margin-bottom: 0.5em;
+
+		a {
+			@extend .button-hover-class;
+			@extend .font-body;
+			background-color: $dark-2;
+			color: $light-1;
+			font-size: 1.2em;
+			padding: 0.5em 1em;
+
+		}
+	}
 }
 
 footer {
@@ -131,7 +223,32 @@ footer {
 
 			#button-div {
 				& > a {
-					font-size: 2em;
+					font-size: 1.7em;
+				}
+			}
+		}	
+
+		#what-is-gif-div {
+			p {
+				padding: 0.5em 1em;
+				font-size: 1.1em;
+			}
+		}
+
+		#features-container {
+			align-items: flex-start;
+
+			.feature-item {
+				max-width: 20em;
+				flex-direction: column;
+				min-height: 25em;
+				text-align: center;
+
+				img {
+					width: 100%;
+					height: auto;
+					border: none;
+					border-bottom: 0.2em solid $dark-2; 
 				}
 			}
 		}

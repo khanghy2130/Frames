@@ -39,6 +39,9 @@ $mobile_bp: 580px;
 img {
 	width: 100%;
 }
+html {
+	scroll-behavior: smooth;
+}
 body {
 	overflow-x: hidden;
 	overflow-y: scroll;
