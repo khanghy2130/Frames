@@ -28,3 +28,40 @@ $mobile_bp: 580px;
 		background-color: $dark-1;
 	}
 }
+
+
+/* reset */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+img {
+	width: 100%;
+}
+body {
+	overflow-x: hidden;
+	overflow-y: scroll;
+}
+a {
+	text-decoration: none;
+}
+button {
+	@extend .font-body;
+	background-color: transparent;
+	border: none;
+}
+
+::root {
+	font-size: 2vw; /* root text size */
+}
+::selection {
+	color: $main-blue;
+	background: $dark-2;
+}
+
+#root {
+	font-size: 1em; /* default text size (big monitor size) */
+	background-color: $light-1;
+	@extend .font-body;
+}

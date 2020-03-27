@@ -1,10 +1,11 @@
 @import '../variables';
 
 #community-main {
-	
+	padding-top: 7em;
+
 	h1 {
 		@extend .font-header;
-		padding: 5.5em 0 1.5em;
+		padding: 1.8em 0;
 		font-size: 1.8em;
 		text-align: center;
 	}
@@ -38,4 +39,15 @@
 			}
 		}
 	}
+}
+
+@media only screen and (max-width: $tablet-bp){
+	#community-main {
+		#users-container {
+			.user-item {
+				width: 7em;
+				margin: 0.3em;
+			}
+		}
+	}	
 }

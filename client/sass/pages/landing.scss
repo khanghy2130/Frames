@@ -1,0 +1,139 @@
+@import '../variables';
+
+#landing-main {
+	min-height: 100vh;
+	
+	#landing-cover {
+		background-position: center center;
+		background-repeat: no-repeat;
+		background-size: cover;
+		width: 100vw;
+		min-height: auto;
+
+		display: flex;
+		flex-direction: column;
+
+		#logo-img-div {
+			display: flex;
+			align-items: center;
+			padding: 1vh 1vw;
+			margin-bottom: 1em;
+
+			// logo image
+			img:nth-child(1) {
+				width: 6em;
+			}
+			// text image
+			img:nth-child(2) {
+				width: 10em;
+			}
+		}
+
+		& > h1 {
+			@extend .font-header;
+			text-align: center;
+			color: $light-1;
+			font-size: 2.2em;
+			text-shadow: 2px 2px black;
+			margin: 0.5em 0;
+		}
+		& > p {
+			text-align: center;
+			color: $light-1;
+			font-size: 2em;
+			text-shadow: 2px 2px black;
+			padding: 0 1em;
+		}
+
+		#button-div {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			flex-grow: 1; // this div takes all remaining space
+			min-height: 20em; // padding
+
+			& > a {
+				@extend .font-header;
+				position: relative;
+				cursor: pointer;
+				color: $main-blue;
+				font-size: 2.5em;
+				padding: 0.8em 1.3em;
+
+				// the two animated frames
+				.frame-button {
+					position: absolute;
+					border: $main-blue 0.2em solid;
+					width: 100%;
+					height: 100%;
+					top: 0;
+					left: 0;
+
+					transition: transform 0.5s;
+				}
+
+				// hover animation
+				&:hover {
+					.frame-button:nth-child(1) {
+						transform: translate(-0.25em, -0.25em);
+					}
+					.frame-button:nth-child(2) {
+						transform: translate(0.25em, 0.25em);
+					}
+				}
+			}
+		}
+	}
+}
+
+footer {
+	background-color: $dark-2;
+	text-align: center;
+
+	#copyright-text {
+		color: $light-1;
+		padding: 1em 0;
+
+		a {
+			color: $main-blue;
+			&:hover {
+				text-decoration: line-through;
+			}
+		}
+	}
+}
+
+
+@media only screen and (max-width: $tablet-bp){
+	#landing-main {
+		#landing-cover {
+			
+			#logo-img-div {
+				padding: 2vh 2vw;
+				margin-bottom: 1em;
+
+				// logo image
+				img:nth-child(1) {
+					width: 4em;
+				}
+				// text image
+				img:nth-child(2) {
+					width: 7em;
+				}
+			}
+
+			& > h1 {
+				font-size: 1.5em;
+			}
+			& > p {
+				font-size: 1.5em;
+			}
+
+			#button-div {
+				& > a {
+					font-size: 2em;
+				}
+			}
+		}
+	}
+}
