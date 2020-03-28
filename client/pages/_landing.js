@@ -43,7 +43,6 @@ const landing = () => {
 				return () => {
 					if (isNotBelowViewport(ele)){
 						ele.classList.add(className);
-						console.log(ele);
 						return false;
 					}
 					return true;

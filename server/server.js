@@ -2,7 +2,7 @@
 if (process.env.NODE_ENV !== 'production') require('dotenv').config();
 
 const PORT = process.env.PORT || 3000;
-const DBURL = process.env.DBURL || "mongodb://localhost:27017/test";
+const DBURL = process.env.DBURL;
 
 const express = require('express');
 const mongoose = require('mongoose');
