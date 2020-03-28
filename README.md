@@ -5,6 +5,10 @@
 [img1]: https://github.com/khanghy2130/final_portfolio/blob/master/project-images/frames.png "featured image"
 
 
+## Quick login
++ __Email:__ guest@frames.io
++ __Password:__ authenticated
+
 ## Tools used
 + __React, Next.js:__ Making server-side-rendering (SSR) with React possible.
 + __Node.js, Express.js:__ Develop backend using Javascript.
@@ -22,7 +26,7 @@
 + Okta setup.
 + GIPHY API key.
 #### Setup:
-Create a file named `.env`. Copy the following keys and fill in the `[..values]`:
+Create a file named `.env` at the root folder. Copy the following keys and fill in the `[..values]`:
 ```
 # 'development' or 'production'
 NODE_ENV=[..environment]
