@@ -30,7 +30,6 @@ const landing = () => {
 			let animateCheckers = [];
 			// add all feature items
 			featureItems.forEach(ref => {
-				console.log(ref);
 				animateCheckers.push(animateChecker(ref.current, "feature-item-animated"));
 			});
 
