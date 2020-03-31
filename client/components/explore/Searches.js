@@ -44,7 +44,7 @@ const Searches = ({
 					title
 					images {
 						original {
-							webp
+							url
 						}
 					}
 				}
@@ -81,7 +81,7 @@ const Searches = ({
 	const gifClicked = function(item) {
 		setGifObj({
 			title: item.title,
-			url: item.images.original.webp
+			url: item.images.original.url
 		});
 	};
 
@@ -126,7 +126,7 @@ const Searches = ({
 					<div className="gif-div" key={item.id}>
 						<ReactImageFallback 
 							onClick={ () => {gifClicked(item)} } 
-							src={item.images.original.webp}
+							src={item.images.original.url}
 							initialImage={spinnerImage}
 						/>
 					</div>

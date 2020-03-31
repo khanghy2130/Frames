@@ -39,20 +39,20 @@ const myProfile = ({ userData }) => {
 			</section>
 
 			<section id="profile-contents-section">
-				<section id="friends-section">
-					<h1 className="content-header">My Friends</h1>
-					<FriendsContainer
-					userData={userData}
-					friends={friends}
-					setFriends={setFriends} />
-				</section>
-
 				<section id="collections-section">
 					<h1  className="content-header">My Collections</h1>
 					<CollectionsContainer 
 					setAlertMessage={setAlertMessage}
 					collections={collections}
 					setCollections={setCollections} />
+				</section>
+
+				<section id="friends-section">
+					<h1 className="content-header">My Friends</h1>
+					<FriendsContainer
+					userData={userData}
+					friends={friends}
+					setFriends={setFriends} />
 				</section>
 			</section>
 

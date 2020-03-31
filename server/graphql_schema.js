@@ -30,14 +30,14 @@ const GifObjectType = new GraphQLObjectType({
 		id: { type: GraphQLString },
 		title: { type: GraphQLString },
 
-		// getting images.original.webp
+		// getting images.original.url
 		images: { type: new GraphQLObjectType({
 			name: 'Images',
 			fields: () => ({
 				original: { type: new GraphQLObjectType({
 					name: 'Original',
 					fields: () => ({
-						webp: { type: GraphQLString }
+						url: { type: GraphQLString }
 					})
 				}) }
 			})

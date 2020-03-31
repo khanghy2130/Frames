@@ -9,9 +9,9 @@ import '../sass/pages/landing.scss';
 
 import logo from '../images/frames_logo.png';
 import fullLogo from '../images/frames_full_logo.png';
-import searchGif from '../images/landing/search.webp';
+import searchGif from '../images/landing/search.gif';
 import shareGif from '../images/landing/share.gif';
-import friendsGif from '../images/landing/friends.webp';
+import friendsGif from '../images/landing/friends.gif';
 import avatarsGif from '../images/landing/avatars.gif';
 
 const cover = `url(${require("../images/landing/cover.jpg")})`;
@@ -119,7 +119,7 @@ const landing = () => {
 						<img src={avatarsGif} alt="avatars"/>
 						<div>
 							<h2>Find your avatar</h2>
-							<p>With millions of combinations, DiceBear's Avataaars library would have something just for you.</p>
+							<p>With millions of combinations, DiceBear's Avataaars library has something just for you.</p>
 						</div>
 					</div>
 				</div>
